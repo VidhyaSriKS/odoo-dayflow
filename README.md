@@ -132,11 +132,3 @@ npm run dev
 The React App will be live at `http://localhost:5173`.
 
 ---
-
-## 6. Live Hackathon Presentation Demo Scenario (3-5 Mins)
-
-1. **Step 1**: Open `http://localhost:5173`. Click **Launch Employee Demo** (`employee@dayflow.com` / `Employee@123`).
-2. **Step 2**: Show Employee Dashboard metrics. Click **Check In**. Notice status updates to *Checked In* at live time.
-3. **Step 3**: Navigate to **Apply & View Leaves**, submit a Sick Leave request.
-4. **Step 4**: Logout and click **Launch HR Admin Demo** (`admin@dayflow.com` / `Admin@123`).
-5. **Step 5**: View HR Dashboard pending request badge. Navigate to **Leave Approvals**, locate Alex Taylor's request, and click **Approve**.
