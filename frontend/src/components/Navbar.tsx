@@ -44,7 +44,7 @@ export const Navbar: React.FC = () => {
             <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-sm font-extrabold tracking-tight text-[#1F1937] dark:text-[#F8F7FF] hidden sm:block">
-            Company Logo
+            DAYFLOW
           </span>
         </Link>
 
