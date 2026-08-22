@@ -4,8 +4,10 @@ Tagline:
 > **Every workday, perfectly aligned.**
 
 ![Dayflow Architecture](https://img.shields.io/badge/Architecture-Full%20Stack-blue)
-![Spring Boot](https://img.shields.io/badge/Backend-Spring%20Boot%203.2-green)
+![Node.js](https://img.shields.io/badge/Backend-Node.js%20%2B%20Express-green)
 ![React](https://img.shields.io/badge/Frontend-React%2018%20%2B%20Vite%20%2B%20TS-cyan)
+![Prisma](https://img.shields.io/badge/ORM-Prisma-black)
+![MySQL](https://img.shields.io/badge/Database-MySQL-orange)
 
 ---
 
@@ -26,14 +28,15 @@ Modern organizations suffer from fragmented HR operations. Attendance punch cloc
 ## 2. Technology Stack
 
 * **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, Lucide React icons, Recharts, React Router v6.
-* **Backend**: Java 17+, Spring Boot 3.2, Spring Security, Spring Data JPA, Hibernate, JWT Authentication, BCrypt.
-* **Database**: PostgreSQL (Production / Docker) & embedded H2 (Zero-dependency local setup).
+* **Backend**: Node.js, Express, TypeScript, JWT Authentication, BCrypt.
+* **Database**: MySQL.
+* **ORM**: Prisma.
 
 ---
 
 ## 3. Demo Credentials
 
-The system comes pre-loaded with rich realistic seed data (15 employees across 5 departments: Engineering, HR, Finance, Marketing, Operations).
+The system comes pre-loaded with rich realistic seed data (Employees across 5 departments: Engineering, HR, Finance, Marketing, Operations).
 
 | Role | Email | Password | Access Scope |
 | :--- | :--- | :--- | :--- |
@@ -47,63 +50,86 @@ The system comes pre-loaded with rich realistic seed data (15 employees across 5
 ```text
 dayflow/
 ├── README.md
-├── docker-compose.yml
 ├── .gitignore
-├── .env.example
 │
 ├── frontend/             # React + TypeScript + Vite + Tailwind UI
 │   ├── package.json
 │   ├── vite.config.ts
-│   ├── index.html
 │   └── src/
-│       ├── components/   # Navbar, Sidebar, StatCard, Badge, Modal, SalarySlipModal
-│       ├── context/      # AuthContext, ThemeContext, NotificationContext
-│       ├── pages/        # Landing, Login, SignUp, EmployeeDash, HrDash, EmployeeList, Attendance, Leave, Payroll
-│       └── api/          # REST API Client & Mock Fallbacks
+│       ├── components/   # Navbar, Sidebar, StatCard, Badge, Modal
+│       ├── context/      # AuthContext, ThemeContext
+│       ├── pages/        # Landing, Login, SignUp, EmployeeDash, HrDash
+│       └── api/          # REST API Client
 │
-├── backend/              # Java Spring Boot 3 REST API
-│   ├── pom.xml
-│   └── src/main/java/com/dayflow/
-│       ├── config/       # Security & App Config
-│       ├── controller/   # Auth, Employee, Attendance, Leave, Payroll, Analytics Controllers
-│       ├── entity/       # User, Employee, Department, Attendance, LeaveRequest, LeaveBalance, Payroll, AuditLog
-│       ├── repository/   # Spring Data JPA Repositories
-│       ├── service/      # Core Business Logic & DataInitializer
-│       └── security/     # JwtUtils, JwtFilter, CustomUserDetailsService
-│
-├── database/             # Relational SQL Scripts
-│   ├── schema.sql
-│   └── seed.sql
-│
-└── docs/                 # Hackathon Pitch, Demo Script, Architecture & API Documentation
+├── backend/              # Node.js + Express REST API
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── prisma/           # Database Schema & Seeding scripts
+│   │   ├── schema.prisma
+│   │   ├── seed.ts
+│   │   └── seed-leaves.ts
+│   └── src/
+│       ├── index.ts      # Server Entry Point
+│       ├── db.ts         # Prisma Client Instance
+│       └── routes/       # API endpoints (auth, employees, attendance, leaves, analytics)
 ```
 
 ---
 
-## 5. Running the Application Locally
+## 5. Running the Application Locally on a New System
 
-### Option A: Standard Local Execution (Recommended)
+### Prerequisites
+- **Node.js** (v18 or higher)
+- **MySQL Server** (running locally on port 3306)
+- **Git**
 
-1. **Frontend (Vite + React)**:
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
-   App will be live at `http://localhost:5173`.
-
-2. **Backend (Spring Boot)**:
-   ```bash
-   cd backend
-   mvn spring-boot:run
-   ```
-   REST API will be live at `http://localhost:8080/api` with embedded H2 console at `/api/h2-console`.
-
-### Option B: Docker Compose
-
-```bash
-docker compose up --build
+### Step 1: Database Setup
+Ensure your local MySQL server is running. Create a blank database named `dayflow`:
+```sql
+CREATE DATABASE IF NOT EXISTS dayflow;
 ```
+
+### Step 2: Backend Setup
+Open a terminal and navigate to the backend directory:
+```bash
+cd backend
+```
+Install dependencies:
+```bash
+npm install
+```
+Create a `.env` file in the `backend/` directory with the following variables (adjust your MySQL password accordingly):
+```env
+PORT=5000
+DATABASE_URL="mysql://root:root@localhost:3306/dayflow"
+JWT_SECRET="super-secret-key-for-jwt"
+```
+Run the Prisma migrations to create tables, and seed the database with demo data:
+```bash
+npx prisma db push
+npx prisma db seed
+npx tsx prisma/seed-leaves.ts
+```
+Start the backend development server:
+```bash
+npm run dev
+```
+The REST API will be live at `http://localhost:5000`.
+
+### Step 3: Frontend Setup
+Open a new terminal and navigate to the frontend directory:
+```bash
+cd frontend
+```
+Install dependencies:
+```bash
+npm install
+```
+Start the frontend development server:
+```bash
+npm run dev
+```
+The React App will be live at `http://localhost:5173`.
 
 ---
 
@@ -114,4 +140,3 @@ docker compose up --build
 3. **Step 3**: Navigate to **Apply & View Leaves**, submit a Sick Leave request.
 4. **Step 4**: Logout and click **Launch HR Admin Demo** (`admin@dayflow.com` / `Admin@123`).
 5. **Step 5**: View HR Dashboard pending request badge. Navigate to **Leave Approvals**, locate Alex Taylor's request, and click **Approve**.
-
