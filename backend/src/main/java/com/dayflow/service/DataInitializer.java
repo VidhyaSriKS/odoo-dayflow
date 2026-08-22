@@ -187,8 +187,8 @@ public class DataInitializer implements CommandLineRunner {
                 if (date.getDayOfWeek().getValue() >= 6) continue; // Skip weekends
 
                 String status = "PRESENT";
-                LocalDateTime checkIn = date.atTime(8, 55 + new Random().nextInt(20));
-                LocalDateTime checkOut = date.atTime(17, 30 + new Random().nextInt(30));
+                LocalDateTime checkIn = date.atTime(8, new Random().nextInt(15));
+                LocalDateTime checkOut = date.atTime(17, 30 + new Random().nextInt(29));
                 BigDecimal hours = new BigDecimal("8.50");
 
                 if (i == 3 && emp.getEmployeeCode().equals("EMP1004")) {

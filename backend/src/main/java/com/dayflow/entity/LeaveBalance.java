@@ -30,7 +30,7 @@ public class LeaveBalance {
     @Column(name = "casual_leave_balance", nullable = false)
     private Integer casualLeaveBalance = 10;
 
-    @Column(nullable = false)
+    @Column(name = "leave_year", nullable = false)
     private Integer year = 2026;
 
     @Column(name = "updated_at")

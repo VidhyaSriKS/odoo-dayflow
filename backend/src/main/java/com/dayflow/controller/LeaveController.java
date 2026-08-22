@@ -55,4 +55,9 @@ public class LeaveController {
         String comment = actionDto != null ? actionDto.getComment() : "Rejected by HR";
         return ResponseEntity.ok(leaveService.rejectLeave(id, adminEmail, comment));
     }
+
+    @GetMapping("/balance")
+    public ResponseEntity<com.dayflow.dto.LeaveBalanceDto> getLeaveBalance(@RequestParam Long employeeId) {
+        return ResponseEntity.ok(leaveService.getLeaveBalance(employeeId));
+    }
 }

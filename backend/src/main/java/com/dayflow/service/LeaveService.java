@@ -112,12 +112,13 @@ public class LeaveService {
         }
 
         // Update attendance records for leave dates
-        LocalDate current = request.getStartDate();
-        while (!current.isAfter(request.getEndDate())) {
+        final LeaveRequest finalRequest = request;
+        LocalDate current = finalRequest.getStartDate();
+        while (!current.isAfter(finalRequest.getEndDate())) {
             final LocalDate dateToProcess = current;
-            Attendance att = attendanceRepository.findByEmployeeIdAndDate(request.getEmployee().getId(), dateToProcess)
+            Attendance att = attendanceRepository.findByEmployeeIdAndDate(finalRequest.getEmployee().getId(), dateToProcess)
                     .orElseGet(() -> Attendance.builder()
-                            .employee(request.getEmployee())
+                            .employee(finalRequest.getEmployee())
                             .date(dateToProcess)
                             .build());
             att.setStatus("LEAVE");
@@ -196,6 +197,25 @@ public class LeaveService {
                 .hrComment(req.getHrComment())
                 .approvedBy(req.getApprovedBy())
                 .createdAt(req.getCreatedAt())
+                .build();
+    }
+
+    public com.dayflow.dto.LeaveBalanceDto getLeaveBalance(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employee not found"));
+        LeaveBalance balance = leaveBalanceRepository.findByEmployeeId(employeeId)
+                .orElseGet(() -> leaveBalanceRepository.save(LeaveBalance.builder()
+                        .employee(employee)
+                        .paidLeaveBalance(15)
+                        .sickLeaveBalance(10)
+                        .casualLeaveBalance(10)
+                        .year(2026)
+                        .build()));
+        return com.dayflow.dto.LeaveBalanceDto.builder()
+                .paidLeaveBalance(balance.getPaidLeaveBalance())
+                .sickLeaveBalance(balance.getSickLeaveBalance())
+                .casualLeaveBalance(balance.getCasualLeaveBalance())
+                .year(balance.getYear())
                 .build();
     }
 }

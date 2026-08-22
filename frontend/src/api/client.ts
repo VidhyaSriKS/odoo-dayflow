@@ -286,6 +286,27 @@ export const apiClient = {
     return mockLeaveRequests;
   },
 
+  async getMyLeaves(employeeId: number): Promise<LeaveRequest[]> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leaves/me?employeeId=${employeeId}`, { headers: getAuthHeader() });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return mockLeaveRequests.filter(l => l.employeeId === employeeId);
+  },
+
+  async getLeaveBalance(employeeId: number): Promise<any> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leaves/balance?employeeId=${employeeId}`, { headers: getAuthHeader() });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return {
+      paidLeaveBalance: 24,
+      sickLeaveBalance: 7,
+      casualLeaveBalance: 10,
+      year: 2026
+    };
+  },
+
   // Analytics
   async getAnalytics(): Promise<AnalyticsData> {
     try {
