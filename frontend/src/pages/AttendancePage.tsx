@@ -64,25 +64,25 @@ export const AttendancePage: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Page Title & Live Action Card */}
-      <div className="glass-panel p-6 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-700">
+      <div className="glass-panel p-6 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#E9E5F7] dark:border-[#30334F]">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <CalendarCheck className="w-6 h-6 text-brand-400" />
+          <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+            <CalendarCheck className="w-6 h-6 text-[#7C3AED] dark:text-[#A78BFA]" />
             <span>{isHr ? 'Organization Attendance Monitor' : 'My Attendance & Punch Log'}</span>
           </h1>
-          <p className="text-xs text-slate-400">Track daily check-ins, check-outs, total logged working hours, and monthly logs.</p>
+          <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Track daily check-ins, check-outs, total logged working hours, and monthly logs.</p>
         </div>
 
         {/* Check-In Action Button */}
-        <div className="flex items-center space-x-3 bg-slate-900/90 border border-slate-700 p-3 rounded-2xl">
+        <div className="flex items-center space-x-3 bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] p-3 rounded-2xl">
           <div className="text-right">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Today's Punch</span>
-            <span className="text-xs font-bold text-white">{isCheckedIn ? 'Checked In (09:02 AM)' : 'Checked Out'}</span>
+            <span className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-[#A9A8BC] block">Today's Punch</span>
+            <span className="text-xs font-bold text-[#1F1937] dark:text-[#F8F7FF]">{isCheckedIn ? 'Checked In (09:02 AM)' : 'Checked Out'}</span>
           </div>
           <button
             onClick={handleToggleCheckIn}
-            className={`px-4 py-2 rounded-xl text-xs font-bold text-white shadow-glow transition-all ${
-              isCheckedIn ? 'bg-rose-600 hover:bg-rose-500' : 'bg-emerald-600 hover:bg-emerald-500'
+            className={`px-4 py-2 rounded-xl text-xs font-bold text-white shadow-sm transition-all ${
+              isCheckedIn ? 'bg-[#EF4444] hover:bg-rose-600' : 'bg-[#7C3AED] hover:bg-[#6D28D9] dark:bg-[#8B5CF6]'
             }`}
           >
             {isCheckedIn ? 'Check Out' : 'Check In'}
@@ -94,20 +94,20 @@ export const AttendancePage: React.FC = () => {
       {!isHr && (
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 text-xs">
           <div className="glass-panel p-4 rounded-2xl">
-            <span className="text-slate-400 block">August Rate</span>
-            <span className="text-xl font-extrabold text-emerald-400 mt-1 block">94.2%</span>
+            <span className="text-[#6B7280] dark:text-[#A9A8BC] block">August Rate</span>
+            <span className="text-xl font-extrabold text-[#22C55E] mt-1 block">94.2%</span>
           </div>
           <div className="glass-panel p-4 rounded-2xl">
-            <span className="text-slate-400 block">Total Hours</span>
-            <span className="text-xl font-extrabold text-white mt-1 block">152.5 Hours</span>
+            <span className="text-[#6B7280] dark:text-[#A9A8BC] block">Total Hours</span>
+            <span className="text-xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] mt-1 block">152.5 Hours</span>
           </div>
           <div className="glass-panel p-4 rounded-2xl">
-            <span className="text-slate-400 block">On-Time Arrivals</span>
-            <span className="text-xl font-extrabold text-sky-400 mt-1 block">18 / 19 Days</span>
+            <span className="text-[#6B7280] dark:text-[#A9A8BC] block">On-Time Arrivals</span>
+            <span className="text-xl font-extrabold text-[#7C3AED] dark:text-[#A78BFA] mt-1 block">18 / 19 Days</span>
           </div>
           <div className="glass-panel p-4 rounded-2xl">
-            <span className="text-slate-400 block">Late Arrivals</span>
-            <span className="text-xl font-extrabold text-amber-400 mt-1 block">1 Day</span>
+            <span className="text-[#6B7280] dark:text-[#A9A8BC] block">Late Arrivals</span>
+            <span className="text-xl font-extrabold text-[#F59E0B] mt-1 block">1 Day</span>
           </div>
         </div>
       )}
@@ -115,11 +115,11 @@ export const AttendancePage: React.FC = () => {
       {/* Filters Toolbar */}
       <div className="glass-panel p-4 rounded-2xl flex flex-wrap gap-3 items-center justify-between">
         <div className="flex items-center space-x-3 text-xs">
-          <Filter className="w-4 h-4 text-slate-400" />
+          <Filter className="w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
           <select
             value={selectedDept}
             onChange={e => setSelectedDept(e.target.value)}
-            className="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-1.5 focus:outline-none"
+            className="bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] text-[#1F1937] dark:text-[#F8F7FF] rounded-xl px-3 py-1.5 focus:outline-none"
           >
             <option value="ALL">All Departments</option>
             <option value="Engineering">Engineering</option>
@@ -130,7 +130,7 @@ export const AttendancePage: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={e => setSelectedStatus(e.target.value)}
-            className="bg-slate-800 border border-slate-700 text-white rounded-xl px-3 py-1.5 focus:outline-none"
+            className="bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] text-[#1F1937] dark:text-[#F8F7FF] rounded-xl px-3 py-1.5 focus:outline-none"
           >
             <option value="ALL">All Statuses</option>
             <option value="PRESENT">Present</option>
@@ -139,16 +139,16 @@ export const AttendancePage: React.FC = () => {
           </select>
         </div>
 
-        <button className="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-semibold rounded-xl flex items-center space-x-2">
-          <Download className="w-3.5 h-3.5 text-brand-400" />
+        <button className="px-3.5 py-1.5 bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#1F1937] dark:text-[#F8F7FF] text-xs font-semibold rounded-xl flex items-center space-x-2 transition-colors">
+          <Download className="w-3.5 h-3.5 text-[#7C3AED] dark:text-[#A78BFA]" />
           <span>Export Sheet</span>
         </button>
       </div>
 
       {/* Attendance Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden border border-slate-800">
+      <div className="glass-panel rounded-2xl overflow-hidden border border-[#E9E5F7] dark:border-[#30334F]">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-800/80 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-700">
+          <thead className="bg-[#F5F3FF] dark:bg-[#1E2038] text-[#6B7280] dark:text-[#A9A8BC] font-semibold uppercase tracking-wider border-b border-[#E9E5F7] dark:border-[#30334F]">
             <tr>
               <th className="p-4">Date</th>
               <th className="p-4">Employee</th>
@@ -159,22 +159,22 @@ export const AttendancePage: React.FC = () => {
               <th className="p-4">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-[#E9E5F7] dark:divide-[#30334F]">
             {filteredRecords.map((r) => (
-              <tr key={r.id} className="hover:bg-slate-800/40 transition-colors">
-                <td className="p-4 font-mono font-medium text-white">{r.date}</td>
+              <tr key={r.id} className="hover:bg-[#F5F3FF] dark:hover:bg-[#1E2038]/60 transition-colors">
+                <td className="p-4 font-mono font-medium text-[#1F1937] dark:text-[#F8F7FF]">{r.date}</td>
                 <td className="p-4">
-                  <span className="font-bold text-white block">{r.employeeName}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">{r.employeeCode}</span>
+                  <span className="font-bold text-[#1F1937] dark:text-[#F8F7FF] block">{r.employeeName}</span>
+                  <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] font-mono">{r.employeeCode}</span>
                 </td>
-                <td className="p-4 text-slate-300">{r.departmentName || 'General'}</td>
-                <td className="p-4 text-slate-300 font-mono">
+                <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC]">{r.departmentName || 'General'}</td>
+                <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC] font-mono">
                   {r.checkInTime ? new Date(r.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
                 </td>
-                <td className="p-4 text-slate-300 font-mono">
+                <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC] font-mono">
                   {r.checkOutTime ? new Date(r.checkOutTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '-'}
                 </td>
-                <td className="p-4 font-mono font-bold text-white">
+                <td className="p-4 font-mono font-bold text-[#1F1937] dark:text-[#F8F7FF]">
                   {r.workingHours ? `${r.workingHours}h` : '0h'}
                 </td>
                 <td className="p-4">

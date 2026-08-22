@@ -96,14 +96,14 @@ export const AiAssistantPage: React.FC = () => {
       {/* Title Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <Bot className="w-6 h-6 text-cyan-400" />
+          <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+            <Bot className="w-6 h-6 text-[#7C3AED] dark:text-[#A78BFA]" />
             <span>AI HR Assistant & Attendance Intelligence</span>
           </h1>
-          <p className="text-xs text-slate-400">Natural language database query engine & automated tardiness/absence risk detection.</p>
+          <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Natural language database query engine & automated tardiness/absence risk detection.</p>
         </div>
 
-        <div className="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-semibold">
+        <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#F5F3FF] dark:bg-purple-950/60 border border-[#E9E5F7] dark:border-purple-800/40 text-[#7C3AED] dark:text-[#A78BFA] text-xs font-semibold">
           <Sparkles className="w-3.5 h-3.5 animate-spin" />
           <span>Active Intelligence Engine</span>
         </div>
@@ -112,7 +112,7 @@ export const AiAssistantPage: React.FC = () => {
       {/* Main Grid: Chat Assistant & Insights Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Chat Window */}
-        <div className="lg:col-span-2 glass-panel rounded-3xl p-6 border border-slate-800 flex flex-col justify-between h-[600px]">
+        <div className="lg:col-span-2 glass-panel rounded-3xl p-6 border border-[#E9E5F7] dark:border-[#30334F] flex flex-col justify-between h-[600px]">
           {/* Message History Container */}
           <div className="overflow-y-auto space-y-4 pr-2 flex-1">
             {messages.map((m) => (
@@ -123,20 +123,20 @@ export const AiAssistantPage: React.FC = () => {
                 <div
                   className={`max-w-[85%] p-4 rounded-2xl text-xs leading-relaxed ${
                     m.sender === 'user'
-                      ? 'bg-brand-600 text-white rounded-br-none shadow-glow'
-                      : 'bg-slate-800/90 text-slate-100 border border-slate-700/80 rounded-bl-none'
+                      ? 'bg-[#7C3AED] dark:bg-[#8B5CF6] text-white rounded-br-none shadow-[0_4px_12px_rgba(124,58,237,0.25)]'
+                      : 'bg-[#FAF9FF] dark:bg-[#1E2038] text-[#1F1937] dark:text-[#F8F7FF] border border-[#E9E5F7] dark:border-[#30334F] rounded-bl-none'
                   }`}
                 >
                   <p>{m.text}</p>
 
                   {m.dataSource && (
-                    <span className="text-[10px] text-cyan-300 font-mono mt-2 block border-t border-slate-700/60 pt-1">
+                    <span className="text-[10px] text-[#7C3AED] dark:text-[#A78BFA] font-mono mt-2 block border-t border-[#E9E5F7] dark:border-[#30334F] pt-1 font-semibold">
                       Data Source: {m.dataSource}
                     </span>
                   )}
                 </div>
 
-                <span className="text-[10px] text-slate-500 mt-1 px-1">{m.timestamp}</span>
+                <span className="text-[10px] text-[#9CA3AF] dark:text-[#77768A] mt-1 px-1">{m.timestamp}</span>
 
                 {/* Suggested Action Pills */}
                 {m.suggestedActions && m.suggestedActions.length > 0 && (
@@ -145,7 +145,7 @@ export const AiAssistantPage: React.FC = () => {
                       <button
                         key={idx}
                         onClick={() => handleSendMessage(action)}
-                        className="text-[11px] bg-slate-800 hover:bg-slate-700 border border-slate-700 text-brand-300 px-2.5 py-1 rounded-full transition-colors"
+                        className="text-[11px] bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#7C3AED] dark:text-[#A78BFA] px-3 py-1 rounded-full transition-colors font-medium"
                       >
                         {action}
                       </button>
@@ -156,7 +156,7 @@ export const AiAssistantPage: React.FC = () => {
             ))}
 
             {loading && (
-              <div className="flex items-center space-x-2 text-xs text-cyan-400 bg-slate-800/60 p-3 rounded-2xl w-fit">
+              <div className="flex items-center space-x-2 text-xs text-[#7C3AED] dark:text-[#A78BFA] bg-[#F5F3FF] dark:bg-[#1E2038] p-3 rounded-2xl w-fit border border-[#E9E5F7] dark:border-[#30334F]">
                 <Brain className="w-4 h-4 animate-bounce" />
                 <span>Interrogating Dayflow Database...</span>
               </div>
@@ -166,19 +166,19 @@ export const AiAssistantPage: React.FC = () => {
           {/* Input Bar */}
           <form
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}
-            className="pt-4 border-t border-slate-800 flex items-center space-x-2"
+            className="pt-4 border-t border-[#E9E5F7] dark:border-[#30334F] flex items-center space-x-2"
           >
             <input
               type="text"
               placeholder={isHr ? "Ask HR question... (e.g. How many employees are absent today?)" : "Ask about your leaves, attendance, or salary..."}
               value={inputPrompt}
               onChange={(e) => setInputPrompt(e.target.value)}
-              className="flex-1 bg-slate-800/90 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-cyan-500"
+              className="flex-1 bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-4 py-2.5 text-xs text-[#1F1937] dark:text-[#F8F7FF] placeholder-[#9CA3AF] dark:placeholder-[#77768A] focus:outline-none focus:border-[#7C3AED] dark:focus:border-[#8B5CF6]"
             />
             <button
               type="submit"
               disabled={loading}
-              className="p-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl shadow-glow transition-all"
+              className="p-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] transition-all"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -187,24 +187,24 @@ export const AiAssistantPage: React.FC = () => {
 
         {/* AI Attendance Insights Section */}
         <div className="space-y-4">
-          <div className="glass-panel p-5 rounded-3xl border border-slate-800 space-y-3">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center space-x-2">
-              <Brain className="w-4 h-4 text-purple-400" />
+          <div className="glass-panel p-5 rounded-3xl border border-[#E9E5F7] dark:border-[#30334F] space-y-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#6B7280] dark:text-[#A9A8BC] flex items-center space-x-2">
+              <Brain className="w-4 h-4 text-[#7C3AED] dark:text-[#A78BFA]" />
               <span>Automated Pattern Insights</span>
             </h3>
 
             <div className="space-y-3">
               {insights.map((ins) => (
-                <div key={ins.id} className="p-4 rounded-2xl bg-slate-800/60 border border-slate-700/80 space-y-2">
+                <div key={ins.id} className="p-4 rounded-2xl bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-white text-xs">{ins.employee_name} ({ins.employee_code})</span>
+                    <span className="font-bold text-[#1F1937] dark:text-[#F8F7FF] text-xs">{ins.employee_name} ({ins.employee_code})</span>
                     <Badge status={ins.severity} />
                   </div>
 
-                  <span className="text-[11px] font-semibold text-amber-400 block">{ins.issue}</span>
-                  <p className="text-[11px] text-slate-300 leading-snug">{ins.pattern_details}</p>
+                  <span className="text-[11px] font-semibold text-[#F59E0B] block">{ins.issue}</span>
+                  <p className="text-[11px] text-[#6B7280] dark:text-[#A9A8BC] leading-snug">{ins.pattern_details}</p>
 
-                  <div className="bg-slate-900/80 p-2.5 rounded-xl border border-slate-700/50 text-[10px] text-cyan-300">
+                  <div className="bg-white dark:bg-[#181A30] p-2.5 rounded-xl border border-[#E9E5F7] dark:border-[#30334F] text-[10px] text-[#7C3AED] dark:text-[#A78BFA]">
                     <strong>Recommendation:</strong> {ins.recommendation}
                   </div>
                 </div>

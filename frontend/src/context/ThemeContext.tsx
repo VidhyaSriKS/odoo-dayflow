@@ -10,7 +10,10 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = localStorage.getItem('dayflow_theme') as Theme;
+    return saved || 'light';
+  });
 
   useEffect(() => {
     const root = document.documentElement;
@@ -21,6 +24,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.classList.add('light');
       root.classList.remove('dark');
     }
+    localStorage.setItem('dayflow_theme', theme);
   }, [theme]);
 
   const toggleTheme = () => {

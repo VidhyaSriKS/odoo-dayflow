@@ -3,8 +3,34 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --bg-page: #FAF9FF;
+    --bg-card: #FFFFFF;
+    --bg-surface: #F5F3FF;
+    --bg-sidebar: #FFFFFF;
+    --border-main: #E9E5F7;
+    --text-primary: #1F1937;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+  }
+
+  .dark {
+    --bg-page: #0F1020;
+    --bg-card: #181A30;
+    --bg-surface: #1E2038;
+    --bg-sidebar: #121329;
+    --border-main: #30334F;
+    --text-primary: #F8F7FF;
+    --text-secondary: #A9A8BC;
+    --text-muted: #77768A;
+  }
+
   body {
-    @apply bg-slate-900 text-slate-100 font-sans antialiased;
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 250ms ease, color 250ms ease;
   }
 }
 
@@ -15,29 +41,49 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(51, 65, 85, 0.8);
+  background: rgba(124, 58, 237, 0.2);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(71, 85, 105, 1);
+  background: rgba(124, 58, 237, 0.4);
 }
 
-/* Glassmorphism Classes */
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 92, 246, 0.5);
+}
+
+/* Dayflow Cards & Panels */
 .glass-panel {
-  background: rgba(30, 41, 59, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #ffffff;
+  border: 1px solid #E9E5F7;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -2px rgba(124, 58, 237, 0.05);
+  transition: background-color 250ms ease, border-color 250ms ease, box-shadow 250ms ease;
+}
+
+.dark .glass-panel {
+  background-color: #181A30;
+  border: 1px solid #30334F;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
 }
 
 .glass-panel-light {
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background-color: #FAF9FF;
+  border: 1px solid #E9E5F7;
+  border-radius: 16px;
 }
+
+.dark .glass-panel-light {
+  background-color: #1E2038;
+  border: 1px solid #30334F;
+}
+

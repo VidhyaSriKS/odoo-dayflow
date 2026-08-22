@@ -24,23 +24,23 @@ export const ReportsPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <FileSpreadsheet className="w-6 h-6 text-brand-400" />
+        <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+          <FileSpreadsheet className="w-6 h-6 text-[#7C3AED] dark:text-[#A78BFA]" />
           <span>HR Reports & Export Center</span>
         </h1>
-        <p className="text-xs text-slate-400">Generate and export compliance reports for attendance, leave utilization, and payroll audit.</p>
+        <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Generate and export compliance reports for attendance, leave utilization, and payroll audit.</p>
       </div>
 
-      <div className="glass-panel p-6 rounded-3xl space-y-6 border border-slate-800">
-        <h3 className="text-base font-bold text-white">Generate Custom Report</h3>
+      <div className="glass-panel p-6 rounded-3xl space-y-6 border border-[#E9E5F7] dark:border-[#30334F]">
+        <h3 className="text-base font-bold text-[#1F1937] dark:text-[#F8F7FF]">Generate Custom Report</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Report Category</label>
+            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Report Category</label>
             <select
               value={reportType}
               onChange={e => setReportType(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+              className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
             >
               <option value="ATTENDANCE">Monthly Attendance Report</option>
               <option value="LEAVE">Leave Summary Report</option>
@@ -49,11 +49,11 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Department Filter</label>
+            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Department Filter</label>
             <select
               value={department}
               onChange={e => setDepartment(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+              className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
             >
               <option value="ALL">All Departments</option>
               <option value="Engineering">Engineering</option>
@@ -64,11 +64,11 @@ export const ReportsPage: React.FC = () => {
           </div>
 
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Export Format</label>
+            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Export Format</label>
             <select
               value={format}
               onChange={e => setFormat(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+              className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
             >
               <option value="CSV">CSV Spreadsheet (.csv)</option>
               <option value="PDF">Document File (.pdf)</option>
@@ -79,7 +79,7 @@ export const ReportsPage: React.FC = () => {
         <div className="pt-2">
           <button
             onClick={handleExport}
-            className="px-6 py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold text-xs rounded-xl shadow-glow flex items-center space-x-2 transition-all"
+            className="px-6 py-3 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold text-xs rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] flex items-center space-x-2 transition-all"
           >
             <Download className="w-4 h-4" />
             <span>Export & Download {reportType} Report</span>

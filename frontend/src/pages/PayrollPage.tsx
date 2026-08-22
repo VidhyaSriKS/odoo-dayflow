@@ -54,17 +54,17 @@ export const PayrollPage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <DollarSign className="w-6 h-6 text-emerald-400" />
+          <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+            <DollarSign className="w-6 h-6 text-[#22C55E]" />
             <span>{isHr ? 'Payroll & Compensation Management' : 'My Salary & Pay Slips'}</span>
           </h1>
-          <p className="text-xs text-slate-400">View earnings, tax deductions, salary structures, and downloadable payslip PDFs.</p>
+          <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">View earnings, tax deductions, salary structures, and downloadable payslip PDFs.</p>
         </div>
 
         {selectedEmp && (
           <button
             onClick={() => setShowPayslipModal(true)}
-            className="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl shadow-glow flex items-center space-x-2 transition-all"
+            className="px-4 py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] dark:hover:bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] flex items-center space-x-2 transition-all"
           >
             <Download className="w-4 h-4" />
             <span>Generate Salary Slip PDF</span>
@@ -75,36 +75,36 @@ export const PayrollPage: React.FC = () => {
       {/* Employee View: My Salary Breakdown */}
       {!isHr && selectedEmp && (
         <div className="space-y-6">
-          <div className="glass-panel p-6 rounded-3xl space-y-6 border border-slate-700">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+          <div className="glass-panel p-6 rounded-3xl space-y-6 border border-[#E9E5F7] dark:border-[#30334F]">
+            <div className="flex items-center justify-between border-b border-[#E9E5F7] dark:border-[#30334F] pb-4">
               <div>
-                <h2 className="text-lg font-bold text-white">August 2026 Earnings Summary</h2>
-                <span className="text-xs text-slate-400 font-mono">Employee Code: {selectedEmp.employeeCode}</span>
+                <h2 className="text-lg font-bold text-[#1F1937] dark:text-[#F8F7FF]">August 2026 Earnings Summary</h2>
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] font-mono">Employee Code: {selectedEmp.employeeCode}</span>
               </div>
-              <span className="px-3 py-1 bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-bold rounded-full">
+              <span className="px-3 py-1 bg-emerald-50 text-[#22C55E] dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40 text-xs font-bold rounded-full">
                 PAID & CREDITED
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-center font-mono">
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-sans">Basic Salary</span>
-                <span className="text-xl font-bold text-white mt-1 block">${selectedEmp.basicSalary.toLocaleString()}</span>
+              <div className="bg-[#FAF9FF] dark:bg-[#1E2038] p-4 rounded-2xl border border-[#E9E5F7] dark:border-[#30334F]">
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] block font-sans">Basic Salary</span>
+                <span className="text-xl font-bold text-[#1F1937] dark:text-[#F8F7FF] mt-1 block">${selectedEmp.basicSalary.toLocaleString()}</span>
               </div>
 
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-sans">Allowances</span>
-                <span className="text-xl font-bold text-emerald-400 mt-1 block">+${selectedEmp.allowances.toLocaleString()}</span>
+              <div className="bg-[#FAF9FF] dark:bg-[#1E2038] p-4 rounded-2xl border border-[#E9E5F7] dark:border-[#30334F]">
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] block font-sans">Allowances</span>
+                <span className="text-xl font-bold text-[#22C55E] mt-1 block">+${selectedEmp.allowances.toLocaleString()}</span>
               </div>
 
-              <div className="bg-slate-800/80 p-4 rounded-2xl border border-slate-700/60">
-                <span className="text-xs text-slate-400 block font-sans">Deductions</span>
-                <span className="text-xl font-bold text-rose-400 mt-1 block">-${selectedEmp.deductions.toLocaleString()}</span>
+              <div className="bg-[#FAF9FF] dark:bg-[#1E2038] p-4 rounded-2xl border border-[#E9E5F7] dark:border-[#30334F]">
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] block font-sans">Deductions</span>
+                <span className="text-xl font-bold text-[#EF4444] mt-1 block">-${selectedEmp.deductions.toLocaleString()}</span>
               </div>
 
-              <div className="bg-brand-600/20 p-4 rounded-2xl border border-brand-500/40">
-                <span className="text-xs text-brand-300 block font-sans">Net Monthly Payable</span>
-                <span className="text-2xl font-black text-white mt-1 block">${selectedEmp.netSalary.toLocaleString()}</span>
+              <div className="bg-[#F5F3FF] dark:bg-purple-950/40 p-4 rounded-2xl border border-[#E9E5F7] dark:border-purple-800/40">
+                <span className="text-xs text-[#7C3AED] dark:text-[#A78BFA] block font-sans font-semibold">Net Monthly Payable</span>
+                <span className="text-2xl font-black text-[#7C3AED] dark:text-[#A78BFA] mt-1 block">${selectedEmp.netSalary.toLocaleString()}</span>
               </div>
             </div>
           </div>
@@ -113,9 +113,9 @@ export const PayrollPage: React.FC = () => {
 
       {/* HR Admin View: All Employee Payroll Table */}
       {isHr && (
-        <div className="glass-panel rounded-2xl overflow-hidden border border-slate-800">
+        <div className="glass-panel rounded-2xl overflow-hidden border border-[#E9E5F7] dark:border-[#30334F]">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-800/80 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-700">
+            <thead className="bg-[#F5F3FF] dark:bg-[#1E2038] text-[#6B7280] dark:text-[#A9A8BC] font-semibold uppercase tracking-wider border-b border-[#E9E5F7] dark:border-[#30334F]">
               <tr>
                 <th className="p-4">Employee</th>
                 <th className="p-4">Department</th>
@@ -126,18 +126,18 @@ export const PayrollPage: React.FC = () => {
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800">
+            <tbody className="divide-y divide-[#E9E5F7] dark:divide-[#30334F]">
               {employees.map((emp) => (
-                <tr key={emp.id} className="hover:bg-slate-800/40 transition-colors">
+                <tr key={emp.id} className="hover:bg-[#F5F3FF] dark:hover:bg-[#1E2038]/60 transition-colors">
                   <td className="p-4">
-                    <span className="font-bold text-white block">{emp.fullName}</span>
-                    <span className="text-[10px] text-slate-400 font-mono">{emp.employeeCode}</span>
+                    <span className="font-bold text-[#1F1937] dark:text-[#F8F7FF] block">{emp.fullName}</span>
+                    <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] font-mono">{emp.employeeCode}</span>
                   </td>
-                  <td className="p-4 text-slate-300">{emp.departmentName || 'General'}</td>
-                  <td className="p-4 font-mono text-slate-300">${emp.basicSalary.toLocaleString()}</td>
-                  <td className="p-4 font-mono text-emerald-400">+${emp.allowances.toLocaleString()}</td>
-                  <td className="p-4 font-mono text-rose-400">-${emp.deductions.toLocaleString()}</td>
-                  <td className="p-4 font-mono font-bold text-white">${emp.netSalary.toLocaleString()}</td>
+                  <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC]">{emp.departmentName || 'General'}</td>
+                  <td className="p-4 font-mono text-[#1F1937] dark:text-[#F8F7FF]">${emp.basicSalary.toLocaleString()}</td>
+                  <td className="p-4 font-mono font-bold text-[#22C55E]">+${emp.allowances.toLocaleString()}</td>
+                  <td className="p-4 font-mono font-bold text-[#EF4444]">-${emp.deductions.toLocaleString()}</td>
+                  <td className="p-4 font-mono font-bold text-[#1F1937] dark:text-[#F8F7FF]">${emp.netSalary.toLocaleString()}</td>
                   <td className="p-4 text-right space-x-1">
                     <button
                       onClick={() => {
@@ -147,7 +147,7 @@ export const PayrollPage: React.FC = () => {
                         setEditDeductions(emp.deductions.toString());
                         setShowEditModal(true);
                       }}
-                      className="px-2.5 py-1 bg-slate-700 hover:bg-slate-600 text-white text-[11px] font-semibold rounded-lg transition-colors inline-flex items-center gap-1"
+                      className="px-2.5 py-1 bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#7C3AED] dark:text-[#A78BFA] text-[11px] font-semibold rounded-lg transition-colors inline-flex items-center gap-1"
                     >
                       <Edit3 className="w-3.5 h-3.5" /> Edit Structure
                     </button>
@@ -164,39 +164,39 @@ export const PayrollPage: React.FC = () => {
         <Modal isOpen={showEditModal} onClose={() => setShowEditModal(false)} title={`Edit Salary Structure: ${selectedEmp.fullName}`}>
           <form onSubmit={handleSaveSalaryStructure} className="space-y-4 text-xs">
             <div>
-              <label className="font-semibold text-slate-300 block mb-1">Basic Monthly Salary ($)</label>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Basic Monthly Salary ($)</label>
               <input
                 type="number"
                 required
                 value={editBasic}
                 onChange={e => setEditBasic(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+                className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
               />
             </div>
             <div>
-              <label className="font-semibold text-slate-300 block mb-1">Allowances ($)</label>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Allowances ($)</label>
               <input
                 type="number"
                 required
                 value={editAllowances}
                 onChange={e => setEditAllowances(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+                className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
               />
             </div>
             <div>
-              <label className="font-semibold text-slate-300 block mb-1">Deductions ($)</label>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Deductions ($)</label>
               <input
                 type="number"
                 required
                 value={editDeductions}
                 onChange={e => setEditDeductions(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+                className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-glow"
+              className="w-full py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]"
             >
               Update Salary Structure
             </button>

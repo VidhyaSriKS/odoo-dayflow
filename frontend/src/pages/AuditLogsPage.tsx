@@ -13,16 +13,16 @@ export const AuditLogsPage: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-          <ShieldCheck className="w-6 h-6 text-emerald-400" />
+        <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+          <ShieldCheck className="w-6 h-6 text-[#7C3AED] dark:text-[#A78BFA]" />
           <span>System Security Audit Trail</span>
         </h1>
-        <p className="text-xs text-slate-400">Complete immutable record of system administrative actions, security events, logins, and leave approvals.</p>
+        <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Complete immutable record of system administrative actions, security events, logins, and leave approvals.</p>
       </div>
 
-      <div className="glass-panel rounded-2xl overflow-hidden border border-slate-800">
+      <div className="glass-panel rounded-2xl overflow-hidden border border-[#E9E5F7] dark:border-[#30334F]">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-800/80 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-700">
+          <thead className="bg-[#F5F3FF] dark:bg-[#1E2038] text-[#6B7280] dark:text-[#A9A8BC] font-semibold uppercase tracking-wider border-b border-[#E9E5F7] dark:border-[#30334F]">
             <tr>
               <th className="p-4">Event Timestamp</th>
               <th className="p-4">Action Event</th>
@@ -30,17 +30,17 @@ export const AuditLogsPage: React.FC = () => {
               <th className="p-4">Audit Details</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-[#E9E5F7] dark:divide-[#30334F]">
             {auditLogs.map((log) => (
-              <tr key={log.id} className="hover:bg-slate-800/40 transition-colors">
-                <td className="p-4 font-mono text-slate-400">{log.timestamp}</td>
+              <tr key={log.id} className="hover:bg-[#F5F3FF] dark:hover:bg-[#1E2038]/60 transition-colors">
+                <td className="p-4 font-mono text-[#6B7280] dark:text-[#A9A8BC]">{log.timestamp}</td>
                 <td className="p-4">
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono bg-brand-500/10 text-brand-400 border border-brand-500/30">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-bold font-mono bg-[#F5F3FF] dark:bg-purple-950/60 text-[#7C3AED] dark:text-[#A78BFA] border border-[#E9E5F7] dark:border-purple-800/40">
                     {log.action}
                   </span>
                 </td>
-                <td className="p-4 font-semibold text-white">{log.performedBy}</td>
-                <td className="p-4 text-slate-300">{log.details}</td>
+                <td className="p-4 font-semibold text-[#1F1937] dark:text-[#F8F7FF]">{log.performedBy}</td>
+                <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC]">{log.details}</td>
               </tr>
             ))}
           </tbody>

@@ -12,7 +12,7 @@ export const DashboardLayout: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 flex flex-col">
+    <div className="min-h-screen bg-[#FAF9FF] dark:bg-[#0F1020] text-[#1F1937] dark:text-[#F8F7FF] flex flex-col transition-colors duration-250">
       <Navbar />
       <div className="flex flex-1">
         <Sidebar />

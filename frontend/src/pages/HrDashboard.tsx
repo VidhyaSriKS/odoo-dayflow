@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatCard } from '../components/StatCard';
+import { useTheme } from '../context/ThemeContext';
 import { apiClient } from '../api/client';
 import { AnalyticsData } from '../types';
 import { useNavigate } from 'react-router-dom';
@@ -31,9 +32,10 @@ import {
   Tooltip
 } from 'recharts';
 
-const COLORS = ['#0c8de9', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899'];
+const PURPLE_COLORS = ['#7C3AED', '#8B5CF6', '#A78BFA', '#22C55E', '#F59E0B'];
 
 export const HrDashboard: React.FC = () => {
+  const { theme } = useTheme();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const navigate = useNavigate();
 
@@ -41,15 +43,17 @@ export const HrDashboard: React.FC = () => {
     apiClient.getAnalytics().then(setData);
   }, []);
 
+  const isDark = theme === 'dark';
+
   return (
     <div className="space-y-6">
       {/* Top Banner Greeting */}
-      <div className="glass-panel p-6 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-slate-700/80">
+      <div className="glass-panel p-6 rounded-3xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-[#E9E5F7] dark:border-[#30334F]">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight">
             Organization HR Dashboard 🏢
           </h1>
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-[#6B7280] dark:text-[#A9A8BC]">
             Real-time headcount, attendance monitoring, leave approvals, and payroll overview.
           </p>
         </div>
@@ -57,14 +61,14 @@ export const HrDashboard: React.FC = () => {
         <div className="flex items-center space-x-3">
           <button
             onClick={() => navigate('/admin/employees')}
-            className="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl shadow-glow transition-all flex items-center space-x-2"
+            className="px-4 py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] dark:hover:bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] transition-all flex items-center space-x-2"
           >
             <UserPlus className="w-4 h-4" />
             <span>Add New Employee</span>
           </button>
           <button
             onClick={() => navigate('/ai-assistant')}
-            className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-cyan-400 text-xs font-bold rounded-xl transition-all flex items-center space-x-2"
+            className="px-4 py-2.5 bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#7C3AED] dark:text-[#A78BFA] text-xs font-bold rounded-xl transition-all flex items-center space-x-2"
           >
             <Bot className="w-4 h-4" />
             <span>AI Insights</span>
@@ -80,7 +84,7 @@ export const HrDashboard: React.FC = () => {
           subtitle="Across 5 departments"
           icon={Users}
           trend="+12 this month"
-          color="from-brand-600 to-cyan-500"
+          color="bg-purple-100 dark:bg-purple-950/50 text-[#7C3AED] dark:text-[#A78BFA] border border-purple-200 dark:border-purple-800/40"
         />
 
         <StatCard
@@ -89,7 +93,7 @@ export const HrDashboard: React.FC = () => {
           subtitle="87.2% active attendance"
           icon={UserCheck}
           trend="Checked in"
-          color="from-emerald-600 to-teal-500"
+          color="bg-emerald-100 dark:bg-emerald-950/50 text-[#22C55E] dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/40"
         />
 
         <StatCard
@@ -99,7 +103,7 @@ export const HrDashboard: React.FC = () => {
           icon={UserX}
           trend="7.2% rate"
           trendType="negative"
-          color="from-rose-600 to-pink-500"
+          color="bg-rose-100 dark:bg-rose-950/50 text-[#EF4444] dark:text-rose-400 border border-rose-200 dark:border-rose-800/40"
         />
 
         <StatCard
@@ -109,7 +113,7 @@ export const HrDashboard: React.FC = () => {
           icon={Clock}
           trend="Paid & Sick"
           trendType="neutral"
-          color="from-purple-600 to-indigo-500"
+          color="bg-purple-100 dark:bg-purple-950/50 text-[#7C3AED] dark:text-[#A78BFA] border border-purple-200 dark:border-purple-800/40"
         />
 
         <StatCard
@@ -119,7 +123,7 @@ export const HrDashboard: React.FC = () => {
           icon={FileCheck}
           trend="Needs Review"
           trendType="negative"
-          color="from-amber-600 to-yellow-500"
+          color="bg-amber-100 dark:bg-amber-950/50 text-[#F59E0B] dark:text-amber-400 border border-amber-200 dark:border-amber-800/40"
         />
 
         <StatCard
@@ -129,7 +133,7 @@ export const HrDashboard: React.FC = () => {
           icon={Percent}
           trend="Target: 90%"
           trendType="positive"
-          color="from-blue-600 to-sky-500"
+          color="bg-purple-100 dark:bg-purple-950/50 text-[#7C3AED] dark:text-[#A78BFA] border border-purple-200 dark:border-purple-800/40"
         />
       </div>
 
@@ -138,11 +142,11 @@ export const HrDashboard: React.FC = () => {
         {/* Attendance Trend Chart */}
         <div className="glass-panel p-6 rounded-3xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white flex items-center space-x-2">
-              <TrendingUp className="w-4 h-4 text-brand-400" />
+            <h3 className="text-base font-bold text-[#1F1937] dark:text-[#F8F7FF] flex items-center space-x-2">
+              <TrendingUp className="w-4 h-4 text-[#7C3AED] dark:text-[#A78BFA]" />
               <span>Monthly Attendance Trend (%)</span>
             </h3>
-            <span className="text-xs text-slate-400 font-mono">Last 6 Months</span>
+            <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] font-mono">Last 6 Months</span>
           </div>
 
           <div className="h-64 w-full pt-4">
@@ -150,14 +154,14 @@ export const HrDashboard: React.FC = () => {
               <AreaChart data={data?.attendanceTrend || []}>
                 <defs>
                   <linearGradient id="colorRate" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    <stop offset="5%" stopColor={isDark ? '#8B5CF6' : '#7C3AED'} stopOpacity={0.35} />
+                    <stop offset="95%" stopColor={isDark ? '#8B5CF6' : '#7C3AED'} stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="month" stroke="#64748b" fontSize={12} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={12} tickLine={false} domain={[70, 100]} />
-                <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px', color: '#fff' }} />
-                <Area type="monotone" dataKey="rate" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorRate)" />
+                <XAxis dataKey="month" stroke={isDark ? '#77768A' : '#9CA3AF'} fontSize={12} tickLine={false} />
+                <YAxis stroke={isDark ? '#77768A' : '#9CA3AF'} fontSize={12} tickLine={false} domain={[70, 100]} />
+                <Tooltip contentStyle={{ backgroundColor: isDark ? '#181A30' : '#FFFFFF', borderColor: isDark ? '#30334F' : '#E9E5F7', borderRadius: '12px', color: isDark ? '#F8F7FF' : '#1F1937' }} />
+                <Area type="monotone" dataKey="rate" stroke={isDark ? '#8B5CF6' : '#7C3AED'} strokeWidth={3} fillOpacity={1} fill="url(#colorRate)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -166,11 +170,11 @@ export const HrDashboard: React.FC = () => {
         {/* Department Headcount Distribution */}
         <div className="glass-panel p-6 rounded-3xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white flex items-center space-x-2">
-              <Building className="w-4 h-4 text-purple-400" />
+            <h3 className="text-base font-bold text-[#1F1937] dark:text-[#F8F7FF] flex items-center space-x-2">
+              <Building className="w-4 h-4 text-[#7C3AED] dark:text-[#A78BFA]" />
               <span>Headcount by Department</span>
             </h3>
-            <span className="text-xs text-slate-400 font-mono">5 Departments</span>
+            <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC] font-mono">5 Departments</span>
           </div>
 
           <div className="h-64 w-full flex items-center justify-center pt-2">
@@ -186,10 +190,10 @@ export const HrDashboard: React.FC = () => {
                   dataKey="value"
                 >
                   {(data?.departmentDistribution || []).map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={PURPLE_COLORS[index % PURPLE_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px', color: '#fff' }} />
+                <Tooltip contentStyle={{ backgroundColor: isDark ? '#181A30' : '#FFFFFF', borderColor: isDark ? '#30334F' : '#E9E5F7', borderRadius: '12px', color: isDark ? '#F8F7FF' : '#1F1937' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -201,34 +205,34 @@ export const HrDashboard: React.FC = () => {
         {/* Leave Requests Quick Approval Shortcut */}
         <div className="lg:col-span-2 glass-panel p-6 rounded-3xl space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-white">Pending Leave Approvals</h3>
-            <button onClick={() => navigate('/leaves')} className="text-xs font-semibold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <h3 className="text-base font-bold text-[#1F1937] dark:text-[#F8F7FF]">Pending Leave Approvals</h3>
+            <button onClick={() => navigate('/leaves')} className="text-xs font-semibold text-[#7C3AED] dark:text-[#A78BFA] hover:underline flex items-center gap-1">
               <span>Manage All</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          <div className="divide-y divide-slate-800">
+          <div className="divide-y divide-[#E9E5F7] dark:divide-[#30334F]">
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-sm font-bold text-white block">Alex Taylor (EMP1002)</span>
-                <span className="text-xs text-slate-400">Engineering • Sick Leave (2 Days: Aug 23 - Aug 24)</span>
+                <span className="text-sm font-bold text-[#1F1937] dark:text-[#F8F7FF] block">Alex Taylor (EMP1002)</span>
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Engineering • Sick Leave (2 Days: Aug 23 - Aug 24)</span>
               </div>
               <button
                 onClick={() => navigate('/leaves')}
-                className="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl"
+                className="px-3 py-1.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] dark:hover:bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
               >
                 Review Request
               </button>
             </div>
             <div className="py-3 flex items-center justify-between">
               <div>
-                <span className="text-sm font-bold text-white block">Michael Scott (EMP1004)</span>
-                <span className="text-xs text-slate-400">Finance • Paid Leave (1 Day: Aug 28)</span>
+                <span className="text-sm font-bold text-[#1F1937] dark:text-[#F8F7FF] block">Michael Scott (EMP1004)</span>
+                <span className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Finance • Paid Leave (1 Day: Aug 28)</span>
               </div>
               <button
                 onClick={() => navigate('/leaves')}
-                className="px-3 py-1.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl"
+                className="px-3 py-1.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] dark:hover:bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-sm transition-colors"
               >
                 Review Request
               </button>
@@ -239,18 +243,18 @@ export const HrDashboard: React.FC = () => {
         {/* Monthly Payroll Summary */}
         <div className="glass-panel p-6 rounded-3xl space-y-4 flex flex-col justify-between">
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block">Total Monthly Payroll</span>
-            <div className="text-3xl font-black text-white mt-1 font-mono">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#6B7280] dark:text-[#A9A8BC] block">Total Monthly Payroll</span>
+            <div className="text-3xl font-black text-[#1F1937] dark:text-[#F8F7FF] mt-1 font-mono">
               ${(data?.totalMonthlyPayroll || 1845000).toLocaleString()}
             </div>
-            <p className="text-xs text-slate-400 mt-2">Calculated net monthly disburse for 250 active employees.</p>
+            <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC] mt-2">Calculated net monthly disburse for 250 active employees.</p>
           </div>
 
           <button
             onClick={() => navigate('/payroll')}
-            className="w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white text-xs font-bold rounded-xl flex items-center justify-center space-x-2 transition-colors"
+            className="w-full py-3 bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#1F1937] dark:text-[#F8F7FF] text-xs font-bold rounded-xl flex items-center justify-center space-x-2 transition-colors"
           >
-            <DollarSign className="w-4 h-4 text-emerald-400" />
+            <DollarSign className="w-4 h-4 text-[#22C55E]" />
             <span>Open Payroll Management</span>
           </button>
         </div>

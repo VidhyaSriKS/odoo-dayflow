@@ -73,17 +73,17 @@ export const LeavePage: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-white tracking-tight flex items-center gap-2">
-            <CalendarDays className="w-6 h-6 text-brand-400" />
+          <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight flex items-center gap-2">
+            <CalendarDays className="w-6 h-6 text-[#7C3AED] dark:text-[#A78BFA]" />
             <span>{isHr ? 'Leave Approvals Engine' : 'Leave Applications & Balances'}</span>
           </h1>
-          <p className="text-xs text-slate-400">Apply for time off, review leave balances, and manage approval workflows.</p>
+          <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Apply for time off, review leave balances, and manage approval workflows.</p>
         </div>
 
         {!isHr && (
           <button
             onClick={() => setShowApplyModal(true)}
-            className="px-4 py-2.5 bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold rounded-xl shadow-glow flex items-center space-x-2 transition-all"
+            className="px-4 py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] dark:hover:bg-[#7C3AED] text-white text-xs font-bold rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] flex items-center space-x-2 transition-all"
           >
             <FilePlus className="w-4 h-4" />
             <span>Apply for Leave</span>
@@ -94,30 +94,30 @@ export const LeavePage: React.FC = () => {
       {/* Leave Balances Header Cards (Employee View) */}
       {!isHr && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-brand-500">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Paid Leave Balance</span>
-            <div className="text-2xl font-black text-white mt-1">12 Days</div>
-            <span className="text-[10px] text-slate-400 mt-1 block">15 total allocated for 2026</span>
+          <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-[#7C3AED] dark:border-l-[#8B5CF6]">
+            <span className="text-xs font-semibold text-[#6B7280] dark:text-[#A9A8BC] uppercase tracking-wider block">Paid Leave Balance</span>
+            <div className="text-2xl font-black text-[#1F1937] dark:text-[#F8F7FF] mt-1">12 Days</div>
+            <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] mt-1 block">15 total allocated for 2026</span>
           </div>
 
           <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-purple-500">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Sick Leave Balance</span>
-            <div className="text-2xl font-black text-white mt-1">8 Days</div>
-            <span className="text-[10px] text-slate-400 mt-1 block">10 total allocated for 2026</span>
+            <span className="text-xs font-semibold text-[#6B7280] dark:text-[#A9A8BC] uppercase tracking-wider block">Sick Leave Balance</span>
+            <div className="text-2xl font-black text-[#1F1937] dark:text-[#F8F7FF] mt-1">8 Days</div>
+            <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] mt-1 block">10 total allocated for 2026</span>
           </div>
 
-          <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-emerald-500">
-            <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Casual Leave Balance</span>
-            <div className="text-2xl font-black text-white mt-1">9 Days</div>
-            <span className="text-[10px] text-slate-400 mt-1 block">10 total allocated for 2026</span>
+          <div className="glass-panel p-5 rounded-2xl border-l-4 border-l-[#22C55E]">
+            <span className="text-xs font-semibold text-[#6B7280] dark:text-[#A9A8BC] uppercase tracking-wider block">Casual Leave Balance</span>
+            <div className="text-2xl font-black text-[#1F1937] dark:text-[#F8F7FF] mt-1">9 Days</div>
+            <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] mt-1 block">10 total allocated for 2026</span>
           </div>
         </div>
       )}
 
       {/* Leave Requests Table */}
-      <div className="glass-panel rounded-2xl overflow-hidden border border-slate-800">
+      <div className="glass-panel rounded-2xl overflow-hidden border border-[#E9E5F7] dark:border-[#30334F]">
         <table className="w-full text-left text-xs">
-          <thead className="bg-slate-800/80 text-slate-400 font-semibold uppercase tracking-wider border-b border-slate-700">
+          <thead className="bg-[#F5F3FF] dark:bg-[#1E2038] text-[#6B7280] dark:text-[#A9A8BC] font-semibold uppercase tracking-wider border-b border-[#E9E5F7] dark:border-[#30334F]">
             <tr>
               <th className="p-4">Employee</th>
               <th className="p-4">Leave Type</th>
@@ -128,19 +128,19 @@ export const LeavePage: React.FC = () => {
               {isHr && <th className="p-4 text-right">Actions</th>}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800">
+          <tbody className="divide-y divide-[#E9E5F7] dark:divide-[#30334F]">
             {leaves.map((l) => (
-              <tr key={l.id} className="hover:bg-slate-800/40 transition-colors">
+              <tr key={l.id} className="hover:bg-[#F5F3FF] dark:hover:bg-[#1E2038]/60 transition-colors">
                 <td className="p-4">
-                  <span className="font-bold text-white block">{l.employeeName}</span>
-                  <span className="text-[10px] text-slate-400 font-mono">{l.employeeCode}</span>
+                  <span className="font-bold text-[#1F1937] dark:text-[#F8F7FF] block">{l.employeeName}</span>
+                  <span className="text-[10px] text-[#6B7280] dark:text-[#A9A8BC] font-mono">{l.employeeCode}</span>
                 </td>
-                <td className="p-4 font-semibold text-brand-400">{l.leaveType}</td>
-                <td className="p-4 font-mono text-slate-300">
+                <td className="p-4 font-semibold text-[#7C3AED] dark:text-[#A78BFA]">{l.leaveType}</td>
+                <td className="p-4 font-mono text-[#6B7280] dark:text-[#A9A8BC]">
                   {l.startDate} → {l.endDate}
                 </td>
-                <td className="p-4 font-bold text-white">{l.totalDays}d</td>
-                <td className="p-4 text-slate-300 max-w-xs truncate">{l.reason}</td>
+                <td className="p-4 font-bold text-[#1F1937] dark:text-[#F8F7FF]">{l.totalDays}d</td>
+                <td className="p-4 text-[#6B7280] dark:text-[#A9A8BC] max-w-xs truncate">{l.reason}</td>
                 <td className="p-4">
                   <Badge status={l.status} />
                 </td>
@@ -150,19 +150,19 @@ export const LeavePage: React.FC = () => {
                       <>
                         <button
                           onClick={() => handleApprove(l.id)}
-                          className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-[#22C55E] hover:bg-emerald-600 text-white text-[11px] font-bold rounded-lg transition-colors"
                         >
                           Approve
                         </button>
                         <button
                           onClick={() => handleReject(l.id)}
-                          className="px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-bold rounded-lg transition-colors"
+                          className="px-2.5 py-1 bg-[#EF4444] hover:bg-rose-600 text-white text-[11px] font-bold rounded-lg transition-colors"
                         >
                           Reject
                         </button>
                       </>
                     ) : (
-                      <span className="text-[10px] text-slate-400 italic">Processed</span>
+                      <span className="text-[10px] text-[#9CA3AF] dark:text-[#77768A] italic">Processed</span>
                     )}
                   </td>
                 )}
@@ -176,11 +176,11 @@ export const LeavePage: React.FC = () => {
       <Modal isOpen={showApplyModal} onClose={() => setShowApplyModal(false)} title="Apply for Leave">
         <form onSubmit={handleApplyLeave} className="space-y-4 text-xs">
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Leave Type</label>
+            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Leave Type</label>
             <select
               value={leaveType}
               onChange={e => setLeaveType(e.target.value as any)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+              className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
             >
               <option value="PAID">Paid Leave</option>
               <option value="SICK">Sick Leave</option>
@@ -191,42 +191,42 @@ export const LeavePage: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-semibold text-slate-300 block mb-1">Start Date</label>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Start Date</label>
               <input
                 type="date"
                 required
                 value={startDate}
                 onChange={e => setStartDate(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+                className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
               />
             </div>
             <div>
-              <label className="font-semibold text-slate-300 block mb-1">End Date</label>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">End Date</label>
               <input
                 type="date"
                 required
                 value={endDate}
                 onChange={e => setEndDate(e.target.value)}
-                className="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none"
+                className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="font-semibold text-slate-300 block mb-1">Reason for Leave</label>
+            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF] block mb-1">Reason for Leave</label>
             <textarea
               required
               rows={3}
               placeholder="State reason..."
               value={reason}
               onChange={e => setReason(e.target.value)}
-              className="w-full bg-slate-800 border border-slate-700 rounded-xl p-3 text-white focus:outline-none"
+              className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl p-3 text-[#1F1937] dark:text-[#F8F7FF] focus:outline-none"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-3 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl shadow-glow flex items-center justify-center space-x-2"
+            className="w-full py-3 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] flex items-center justify-center space-x-2"
           >
             <Send className="w-4 h-4" />
             <span>Submit Leave Application</span>
