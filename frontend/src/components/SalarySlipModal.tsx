@@ -28,8 +28,8 @@ export const SalarySlipModal: React.FC<SalarySlipModalProps> = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-[#E9E5F7] dark:border-[#30334F] pb-4">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-[#7C3AED] dark:bg-[#8B5CF6] text-white font-black text-xl flex items-center justify-center shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
-              D
+            <div className="w-10 h-10 rounded-xl bg-[#7C3AED] dark:bg-[#8B5CF6] text-white font-black text-xl flex items-center justify-center shadow-[0_4px_12px_rgba(124,58,237,0.3)] overflow-hidden">
+              <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
             </div>
             <div>
               <h2 className="text-xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight">DAYFLOW HRMS</h2>

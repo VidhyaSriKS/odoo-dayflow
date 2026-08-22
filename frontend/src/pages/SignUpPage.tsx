@@ -67,8 +67,8 @@ export const SignUpPage: React.FC = () => {
       <div className="w-full max-w-md bg-white dark:bg-[#181A30] border border-[#E9E5F7] dark:border-[#30334F] rounded-3xl p-8 shadow-xl space-y-6">
         <div className="text-center space-y-2">
           <Link to="/" className="inline-flex items-center space-x-3 mb-2">
-            <div className="w-12 h-12 rounded-2xl bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
-              D
+            <div className="w-12 h-12 rounded-2xl bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] overflow-hidden">
+              <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
             </div>
           </Link>
           <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight">Sign Up Page</h1>

@@ -33,8 +33,8 @@ export const LandingPage: React.FC = () => {
       {/* Top Header Navigation */}
       <header className="px-6 lg:px-12 py-5 flex items-center justify-between border-b border-[#E9E5F7] dark:border-[#30334F] bg-white/80 dark:bg-[#121329]/80 backdrop-blur-md sticky top-0 z-50">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-2xl bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
-            D
+          <div className="w-10 h-10 rounded-2xl bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)] overflow-hidden">
+            <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-xl font-extrabold tracking-tight text-[#1F1937] dark:text-[#F8F7FF]">DAYFLOW</span>
         </div>
@@ -139,7 +139,9 @@ export const LandingPage: React.FC = () => {
       {/* Footer */}
       <footer className="px-6 lg:px-12 py-8 border-t border-[#E9E5F7] dark:border-[#30334F] text-center text-xs text-[#6B7280] dark:text-[#A9A8BC] flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 rounded-lg bg-[#7C3AED] dark:bg-[#8B5CF6] text-white font-bold text-xs flex items-center justify-center">D</div>
+          <div className="w-6 h-6 rounded-lg bg-[#7C3AED] dark:bg-[#8B5CF6] text-white font-bold text-xs flex items-center justify-center overflow-hidden">
+            <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
+          </div>
           <span className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Dayflow HRMS</span>
           <span>© 2026 College Edition</span>
         </div>

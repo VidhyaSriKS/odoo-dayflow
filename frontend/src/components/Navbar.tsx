@@ -40,8 +40,8 @@ export const Navbar: React.FC = () => {
       <div className="flex items-center gap-6">
         {/* Brand / Company Logo */}
         <Link to={isHr ? '/admin' : '/dashboard'} className="flex items-center gap-2 group flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-base shadow-[0_4px_14px_rgba(124,58,237,0.35)] group-hover:scale-105 transition-transform">
-            D
+          <div className="w-8 h-8 rounded-lg bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-base shadow-[0_4px_14px_rgba(124,58,237,0.35)] group-hover:scale-105 transition-transform overflow-hidden">
+            <img src="/logo.png" alt="Dayflow Logo" className="w-full h-full object-cover" />
           </div>
           <span className="text-sm font-extrabold tracking-tight text-[#1F1937] dark:text-[#F8F7FF] hidden sm:block">
             Company Logo
