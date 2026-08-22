@@ -16,12 +16,12 @@ function getAuthHeader(): Record<string, string> {
 
 export const apiClient = {
   // Auth
-  async login(email: string, password: string): Promise<User> {
+  async login(loginIdOrEmail: string, password: string): Promise<User> {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ loginIdOrEmail, password })
       });
       if (res.ok) {
         const data = await res.json();
@@ -34,13 +34,17 @@ export const apiClient = {
           employeeCode: data.employeeCode,
           token: data.token
         };
+      } else {
+        const errorData = await res.json();
+        throw new Error(errorData.message || 'Invalid login credentials');
       }
-    } catch (e) {
+    } catch (e: any) {
+      if (e.message !== 'Failed to fetch') throw e;
       console.warn('Backend unavailable, using client auth handler:', e);
     }
 
     // Fallback demo login verification
-    if (email.toLowerCase().includes('admin')) {
+    if (loginIdOrEmail.toLowerCase().includes('admin')) {
       return {
         id: 1,
         email: 'admin@dayflow.com',
@@ -61,6 +65,51 @@ export const apiClient = {
         token: 'demo-jwt-token-employee'
       };
     }
+  },
+
+  async registerAdmin(data: any): Promise<User> {
+    const res = await fetch(`${API_BASE_URL}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+    const err = await res.json();
+    throw new Error(err.message || 'Registration failed');
+  },
+
+  async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+    const res = await fetch(`${API_BASE_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ oldPassword, newPassword })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Failed to change password');
+    }
+  },
+
+  // Employees
+  async createEmployee(data: any): Promise<any> {
+    const res = await fetch(`${API_BASE_URL}/employees`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify(data)
+    });
+    if (res.ok) {
+      return await res.json();
+    }
+    const err = await res.json();
+    throw new Error(err.message || 'Failed to create employee');
   },
 
   // Employees

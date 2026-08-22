@@ -11,15 +11,17 @@ import lombok.*;
 @Builder
 public class RegisterRequest {
 
-    @NotBlank(message = "Employee code is required")
-    private String employeeCode;
-
+    private String companyName;
+    private String companyLogo; // base64 or URL
+    
     @NotBlank(message = "Full name is required")
     private String fullName;
 
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     private String email;
+
+    private String phone;
 
     @NotBlank(message = "Password is required")
     private String password;

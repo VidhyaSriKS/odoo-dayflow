@@ -31,13 +31,14 @@ export const EmployeeListPage: React.FC = () => {
   const [showSalarySlipModal, setShowSalarySlipModal] = useState(false);
 
   // Add Employee Form State
-  const [newCode, setNewCode] = useState('EMP1020');
   const [newFirstName, setNewFirstName] = useState('');
   const [newLastName, setNewLastName] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [newDept, setNewDept] = useState('Engineering');
   const [newDesignation, setNewDesignation] = useState('Software Engineer');
   const [newSalary, setNewSalary] = useState('75000');
+  
+  const [createdEmployeeCreds, setCreatedEmployeeCreds] = useState<{loginId: string, password: string} | null>(null);
 
   useEffect(() => {
     loadEmployees();
@@ -59,24 +60,29 @@ export const EmployeeListPage: React.FC = () => {
 
   const handleAddEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
-    const basic = parseFloat(newSalary) || 75000;
-    const newEmp: Employee = {
-      id: Date.now(),
-      employeeCode: newCode,
-      firstName: newFirstName,
-      lastName: newLastName,
-      fullName: `${newFirstName} ${newLastName}`,
-      email: newEmail,
-      departmentName: newDept,
-      designation: newDesignation,
-      joiningDate: new Date().toISOString().split('T')[0],
-      employmentStatus: 'ACTIVE',
-      basicSalary: basic,
-      allowances: 5000,
-      deductions: 2000,
-      netSalary: basic + 3000
-    };
-    setEmployees(prev => [newEmp, ...prev]);
+    try {
+      const basic = parseFloat(newSalary) || 75000;
+      const res = await apiClient.createEmployee({
+        firstName: newFirstName,
+        lastName: newLastName,
+        email: newEmail,
+        departmentName: newDept,
+        designation: newDesignation,
+        basicSalary: basic
+      });
+      setEmployees(prev => [res, ...prev]);
+      setCreatedEmployeeCreds({ loginId: res.employeeCode, password: res.generatedPassword });
+    } catch (err) {
+      console.error("Failed to create employee", err);
+    }
+  };
+
+  const resetAddForm = () => {
+    setNewFirstName('');
+    setNewLastName('');
+    setNewEmail('');
+    setNewDesignation('Software Engineer');
+    setCreatedEmployeeCreds(null);
     setShowAddModal(false);
   };
 
@@ -189,46 +195,71 @@ export const EmployeeListPage: React.FC = () => {
       </div>
 
       {/* Add Employee Modal */}
-      <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add New Employee">
-        <form onSubmit={handleAddEmployee} className="space-y-4 text-xs">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">First Name</label>
-              <input type="text" required value={newFirstName} onChange={e => setNewFirstName(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
+      <Modal isOpen={showAddModal} onClose={resetAddForm} title="Add New Employee">
+        {createdEmployeeCreds ? (
+          <div className="space-y-4 text-center">
+            <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-2">
+              <UserPlus className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-bold text-[#1F1937] dark:text-[#F8F7FF]">Employee Created!</h3>
+            <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Please securely share these login credentials. The password will only be shown once.</p>
+            
+            <div className="bg-[#FAF9FF] dark:bg-[#1E2038] p-4 rounded-xl border border-[#E9E5F7] dark:border-[#30334F] space-y-3 text-left">
+              <div>
+                <label className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-[#A9A8BC]">Login ID</label>
+                <div className="font-mono text-sm font-bold text-[#7C3AED] dark:text-[#A78BFA]">{createdEmployeeCreds.loginId}</div>
+              </div>
+              <div>
+                <label className="text-[10px] uppercase font-bold text-[#6B7280] dark:text-[#A9A8BC]">Initial Password</label>
+                <div className="font-mono text-sm font-bold text-[#1F1937] dark:text-[#F8F7FF] bg-white dark:bg-[#181A30] px-3 py-2 rounded-lg border border-[#E9E5F7] dark:border-[#30334F]">{createdEmployeeCreds.password}</div>
+              </div>
+            </div>
+
+            <button onClick={resetAddForm} className="w-full py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold text-xs rounded-xl mt-4">
+              Done
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleAddEmployee} className="space-y-4 text-xs">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">First Name</label>
+                <input type="text" required value={newFirstName} onChange={e => setNewFirstName(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
+              </div>
+              <div>
+                <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Last Name</label>
+                <input type="text" required value={newLastName} onChange={e => setNewLastName(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
+              </div>
             </div>
             <div>
-              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Last Name</label>
-              <input type="text" required value={newLastName} onChange={e => setNewLastName(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Email</label>
+              <input type="email" required value={newEmail} onChange={e => setNewEmail(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
             </div>
-          </div>
-          <div>
-            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Email</label>
-            <input type="email" required value={newEmail} onChange={e => setNewEmail(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Department</label>
+                <select value={newDept} onChange={e => setNewDept(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]">
+                  <option value="Engineering">Engineering</option>
+                  <option value="Human Resources">Human Resources</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Operations">Operations</option>
+                </select>
+              </div>
+              <div>
+                <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Designation</label>
+                <input type="text" required value={newDesignation} onChange={e => setNewDesignation(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
+              </div>
+            </div>
             <div>
-              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Department</label>
-              <select value={newDept} onChange={e => setNewDept(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]">
-                <option value="Engineering">Engineering</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Finance">Finance</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Operations">Operations</option>
-              </select>
+              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Basic Monthly Salary ($)</label>
+              <input type="number" required value={newSalary} onChange={e => setNewSalary(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
             </div>
-            <div>
-              <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Designation</label>
-              <input type="text" required value={newDesignation} onChange={e => setNewDesignation(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
-            </div>
-          </div>
-          <div>
-            <label className="font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Basic Monthly Salary ($)</label>
-            <input type="number" required value={newSalary} onChange={e => setNewSalary(e.target.value)} className="w-full bg-[#FAF9FF] dark:bg-[#1E2038] border border-[#E9E5F7] dark:border-[#30334F] rounded-xl px-3 py-2 text-xs text-[#1F1937] dark:text-[#F8F7FF]" />
-          </div>
-          <button type="submit" className="w-full py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold text-xs rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
-            Save Employee Profile
-          </button>
-        </form>
+            <button type="submit" className="w-full py-2.5 bg-[#7C3AED] dark:bg-[#8B5CF6] hover:bg-[#6D28D9] text-white font-bold text-xs rounded-xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
+              Save Employee Profile
+            </button>
+          </form>
+        )}
       </Modal>
 
       {/* Employee Detail Drawer Modal */}
