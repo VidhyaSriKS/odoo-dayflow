@@ -22,7 +22,7 @@ ON CONFLICT DO NOTHING;
 -- 3. Employees
 INSERT INTO employees (id, employee_code, user_id, first_name, last_name, email, phone, address, department_id, designation, joining_date, employment_status, basic_salary, allowances, deductions) VALUES
 (1, 'EMP1001', 1, 'Admin', 'HR', 'admin@dayflow.com', '+1 (555) 019-2831', '100 HR Way, Silicon Valley, CA', 2, 'HR Director', '2023-01-15', 'ACTIVE', 95000.00, 12000.00, 5000.00),
-(2, 'EMP1002', 2, 'Alex', 'Taylor', 'employee@dayflow.com', '+1 (555) 014-9281', '404 Innovation Drive, Austin, TX', 1, 'Senior Software Engineer', '2023-06-01', 'ACTIVE', 85000.00, 8000.00, 3500.00),
+(2, 'EMP1002', 2, 'Sanjay', 'Taylor', 'employee@dayflow.com', '+1 (555) 014-9281', '404 Innovation Drive, Austin, TX', 1, 'Senior Software Engineer', '2023-06-01', 'ACTIVE', 85000.00, 8000.00, 3500.00),
 (3, 'EMP1003', 3, 'Sarah', 'Connor', 'sarah.engineering@dayflow.com', '+1 (555) 018-3729', '77 Tech Boulevard, Seattle, WA', 1, 'Engineering Manager', '2022-11-10', 'ACTIVE', 110000.00, 15000.00, 6000.00),
 (4, 'EMP1004', 4, 'Michael', 'Scott', 'michael.finance@dayflow.com', '+1 (555) 012-4820', '172 Scranton Lane, Scranton, PA', 3, 'Financial Analyst', '2024-02-01', 'ACTIVE', 65000.00, 6000.00, 2500.00),
 (5, 'EMP1005', 5, 'Elena', 'Rostova', 'elena.marketing@dayflow.com', '+1 (555) 016-9382', '89 Brand Avenue, New York, NY', 4, 'Head of Marketing', '2023-09-15', 'ACTIVE', 90000.00, 10000.00, 4000.00)
