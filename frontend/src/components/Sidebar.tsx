@@ -9,7 +9,6 @@ import {
   DollarSign,
   BarChart3,
   FileSpreadsheet,
-  Bot,
   Bell,
   ShieldCheck,
   UserCheck
@@ -28,7 +27,6 @@ export const Sidebar: React.FC = () => {
         { label: 'Payroll Operations', path: '/payroll', icon: DollarSign },
         { label: 'HR Analytics', path: '/analytics', icon: BarChart3 },
         { label: 'Reports Export', path: '/reports', icon: FileSpreadsheet },
-        { label: 'AI HR Assistant', path: '/ai-assistant', icon: Bot },
         { label: 'System Audit Logs', path: '/audit-logs', icon: ShieldCheck },
       ]
     : [
@@ -38,7 +36,6 @@ export const Sidebar: React.FC = () => {
         { label: 'Apply & View Leaves', path: '/leaves', icon: CalendarDays },
         { label: 'My Salary & Slips', path: '/payroll', icon: DollarSign },
         { label: 'Notifications', path: '/notifications', icon: Bell },
-        { label: 'AI HR Assistant', path: '/ai-assistant', icon: Bot },
       ];
 
   return (

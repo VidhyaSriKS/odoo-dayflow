@@ -1,5 +1,5 @@
-import { mockEmployees, mockAttendanceRecords, mockLeaveRequests, mockAnalyticsData, mockAiInsights } from '../data/mockData';
-import { User, Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData, AiInsight } from '../types';
+import { mockEmployees, mockAttendanceRecords, mockLeaveRequests, mockAnalyticsData } from '../data/mockData';
+import { User, Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData } from '../types';
 
 const API_BASE_URL = '/api';
 
@@ -211,65 +211,33 @@ export const apiClient = {
     return mockLeaveRequests;
   },
 
-  // Analytics & AI
+  async getMyLeaves(employeeId: number): Promise<LeaveRequest[]> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leaves/me?employeeId=${employeeId}`, { headers: getAuthHeader() });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return mockLeaveRequests.filter(l => l.employeeId === employeeId);
+  },
+
+  async getLeaveBalance(employeeId: number): Promise<any> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/leaves/balance?employeeId=${employeeId}`, { headers: getAuthHeader() });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return {
+      paidLeaveBalance: 24,
+      sickLeaveBalance: 7,
+      casualLeaveBalance: 10,
+      year: 2026
+    };
+  },
+
+  // Analytics
   async getAnalytics(): Promise<AnalyticsData> {
     try {
       const res = await fetch(`${API_BASE_URL}/analytics/dashboard`, { headers: getAuthHeader() });
       if (res.ok) return await res.json();
     } catch (e) {}
     return mockAnalyticsData;
-  },
-
-  async queryAi(prompt: string, role: string): Promise<{ response: string; dataSource: string; suggestedActions: string[] }> {
-    try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      };
-      const res = await fetch(`${API_BASE_URL}/ai/chat`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ prompt, userRole: role })
-      });
-      if (res.ok) return await res.json();
-    } catch (e) {}
-
-    // Client-side Fallback Processor
-    const lower = prompt.toLowerCase();
-    if (lower.includes('leave') || lower.includes('balance')) {
-      return {
-        response: 'You currently have 12 Paid Leave days, 8 Sick Leave days, and 9 Casual Leave days remaining for 2026.',
-        dataSource: 'Dayflow LeaveEngine (Live)',
-        suggestedActions: ['Apply for Leave', 'View Leave Policy']
-      };
-    }
-    if (lower.includes('absent')) {
-      return {
-        response: 'Today across all departments, 18 employees are marked absent and 14 employees are on approved leave out of 250 total headcount.',
-        dataSource: 'Dayflow AttendanceAnalytics',
-        suggestedActions: ['View Daily Attendance Sheet', 'Send Absence Reminder']
-      };
-    }
-    if (lower.includes('salary') || lower.includes('payroll')) {
-      return {
-        response: 'Your net monthly salary is $89,500.00 (Basic: $85,000.00, Allowances: $8,000.00, Deductions: $3,500.00). Payslip for August 2026 is available for download.',
-        dataSource: 'Dayflow PayrollModule',
-        suggestedActions: ['Download Payslip PDF']
-      };
-    }
-
-    return {
-      response: `I analyzed your query: '${prompt}'. All system metrics are within nominal ranges. Would you like to check specific attendance or payroll breakdowns?`,
-      dataSource: 'Dayflow AI Assistant Engine',
-      suggestedActions: ['View Dashboard', 'Check Approvals']
-    };
-  },
-
-  async getAiInsights(): Promise<AiInsight[]> {
-    try {
-      const res = await fetch(`${API_BASE_URL}/ai/insights`, { headers: getAuthHeader() });
-      if (res.ok) return await res.json();
-    } catch (e) {}
-    return mockAiInsights;
   }
 };
