@@ -11,9 +11,8 @@ import lombok.*;
 @Builder
 public class AuthRequest {
 
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
-    private String email;
+    @NotBlank(message = "Login ID or Email is required")
+    private String loginIdOrEmail;
 
     @NotBlank(message = "Password is required")
     private String password;

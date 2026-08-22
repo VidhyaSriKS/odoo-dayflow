@@ -34,9 +34,6 @@ dayflow:
     secret: ${JWT_SECRET:dayflow_super_secret_jwt_key_2026_hackathon_production_secure_key_987654321}
     expiration-ms: 86400000 # 24 Hours
 
-  ai:
-    service-url: ${AI_SERVICE_URL:http://localhost:8000}
-
 logging:
   level:
     root: INFO

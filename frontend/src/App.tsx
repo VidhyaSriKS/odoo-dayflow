@@ -10,7 +10,6 @@ import { SignUpPage } from './pages/SignUpPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 
 import { EmployeeDashboard } from './pages/EmployeeDashboard';
-import { EmployeeHomePage } from './pages/EmployeeHomePage';
 import { EmployeeProfilePage } from './pages/EmployeeProfilePage';
 import { HrDashboard } from './pages/HrDashboard';
 import { EmployeeListPage } from './pages/EmployeeListPage';
@@ -20,9 +19,36 @@ import { PayrollPage } from './pages/PayrollPage';
 import { NotificationsPage } from './pages/NotificationsPage';
 import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReportsPage } from './pages/ReportsPage';
-import { AiAssistantPage } from './pages/AiAssistantPage';
 import { AuditLogsPage } from './pages/AuditLogsPage';
 
+// Route Guard: Require HR / Admin access
+const RequireHr: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role !== 'ROLE_ADMIN') {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <>{children}</>;
+};
+
+// Route Guard: Require Employee access (redirect HR to /admin)
+const RequireEmployee: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  if (user.role === 'ROLE_ADMIN') {
+    return <Navigate to="/admin" replace />;
+  }
+  return <>{children}</>;
+};
+
+// Route Guard: Require any logged in user
+const RequireAuth: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  return <>{children}</>;
+};
+
+// Default redirect after login based on user role
 const RoleBasedHome: React.FC = () => {
   const { user } = useAuth();
   if (user?.role === 'ROLE_ADMIN') {
@@ -46,18 +72,100 @@ export const App: React.FC = () => {
               {/* Protected Application Routes */}
               <Route element={<DashboardLayout />}>
                 <Route path="/home" element={<RoleBasedHome />} />
-                <Route path="/dashboard" element={<EmployeeHomePage />} />
-                <Route path="/profile" element={<EmployeeProfilePage />} />
-                <Route path="/admin" element={<HrDashboard />} />
-                <Route path="/admin/employees" element={<EmployeeListPage />} />
-                <Route path="/attendance" element={<AttendancePage />} />
-                <Route path="/leaves" element={<LeavePage />} />
-                <Route path="/payroll" element={<PayrollPage />} />
-                <Route path="/notifications" element={<NotificationsPage />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/reports" element={<ReportsPage />} />
-                <Route path="/ai-assistant" element={<AiAssistantPage />} />
-                <Route path="/audit-logs" element={<AuditLogsPage />} />
+                
+                {/* Employee Only Routes */}
+                <Route
+                  path="/dashboard"
+                  element={
+                    <RequireEmployee>
+                      <EmployeeDashboard />
+                    </RequireEmployee>
+                  }
+                />
+                
+                {/* HR Only Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <RequireHr>
+                      <HrDashboard />
+                    </RequireHr>
+                  }
+                />
+                <Route
+                  path="/admin/employees"
+                  element={
+                    <RequireHr>
+                      <EmployeeListPage />
+                    </RequireHr>
+                  }
+                />
+                <Route
+                  path="/analytics"
+                  element={
+                    <RequireHr>
+                      <AnalyticsPage />
+                    </RequireHr>
+                  }
+                />
+                <Route
+                  path="/reports"
+                  element={
+                    <RequireHr>
+                      <ReportsPage />
+                    </RequireHr>
+                  }
+                />
+                <Route
+                  path="/audit-logs"
+                  element={
+                    <RequireHr>
+                      <AuditLogsPage />
+                    </RequireHr>
+                  }
+                />
+
+                {/* Shared User Routes */}
+                <Route
+                  path="/profile"
+                  element={
+                    <RequireAuth>
+                      <EmployeeProfilePage />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/attendance"
+                  element={
+                    <RequireAuth>
+                      <AttendancePage />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/leaves"
+                  element={
+                    <RequireAuth>
+                      <LeavePage />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/payroll"
+                  element={
+                    <RequireAuth>
+                      <PayrollPage />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/notifications"
+                  element={
+                    <RequireAuth>
+                      <NotificationsPage />
+                    </RequireAuth>
+                  }
+                />
               </Route>
 
               {/* Catch-all fallback */}

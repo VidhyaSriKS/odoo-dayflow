@@ -1,21 +1,27 @@
 package com.dayflow.service;
 
 import com.dayflow.dto.EmployeeDto;
+import com.dayflow.entity.Company;
 import com.dayflow.entity.Department;
 import com.dayflow.entity.Employee;
 import com.dayflow.entity.LeaveBalance;
 import com.dayflow.entity.User;
 import com.dayflow.exception.ResourceNotFoundException;
+import com.dayflow.repository.CompanyRepository;
 import com.dayflow.repository.DepartmentRepository;
 import com.dayflow.repository.EmployeeRepository;
 import com.dayflow.repository.LeaveBalanceRepository;
 import com.dayflow.repository.UserRepository;
+import com.dayflow.util.EmployeeCodeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,12 +38,18 @@ public class EmployeeService {
 
     @Autowired
     private LeaveBalanceRepository leaveBalanceRepository;
+    
+    @Autowired
+    private CompanyRepository companyRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private AuditService auditService;
+    
+    @Autowired
+    private EmployeeCodeUtils employeeCodeUtils;
 
     public List<EmployeeDto> getAllEmployees(String query, Long departmentId) {
         List<Employee> list;
@@ -65,9 +77,12 @@ public class EmployeeService {
 
     @Transactional
     public EmployeeDto createEmployee(EmployeeDto dto) {
+        // Auto-generate password
+        String generatedPassword = UUID.randomUUID().toString().substring(0, 8);
+        
         User user = User.builder()
                 .email(dto.getEmail())
-                .password(passwordEncoder.encode("Default@123"))
+                .password(passwordEncoder.encode(generatedPassword))
                 .fullName(dto.getFirstName() + " " + dto.getLastName())
                 .role("ROLE_EMPLOYEE")
                 .active(true)
@@ -78,9 +93,17 @@ public class EmployeeService {
         if (dto.getDepartmentId() != null) {
             dept = departmentRepository.findById(dto.getDepartmentId()).orElse(null);
         }
+        
+        // Fetch company for Login ID generation
+        Company company = companyRepository.findAll().stream().findFirst().orElse(null);
+        String companyName = company != null ? company.getName() : "Dayflow";
+        
+        int joiningYear = dto.getJoiningDate() != null ? dto.getJoiningDate().getYear() : LocalDate.now().getYear();
+        
+        String generatedCode = employeeCodeUtils.generateLoginId(companyName, dto.getFirstName(), dto.getLastName(), joiningYear);
 
         Employee employee = Employee.builder()
-                .employeeCode(dto.getEmployeeCode())
+                .employeeCode(generatedCode)
                 .user(user)
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -89,7 +112,7 @@ public class EmployeeService {
                 .address(dto.getAddress())
                 .department(dept)
                 .designation(dto.getDesignation())
-                .joiningDate(dto.getJoiningDate() != null ? dto.getJoiningDate() : java.time.LocalDate.now())
+                .joiningDate(dto.getJoiningDate() != null ? dto.getJoiningDate() : LocalDate.now())
                 .employmentStatus(dto.getEmploymentStatus() != null ? dto.getEmploymentStatus() : "ACTIVE")
                 .basicSalary(dto.getBasicSalary())
                 .allowances(dto.getAllowances())
@@ -103,13 +126,15 @@ public class EmployeeService {
                 .paidLeaveBalance(15)
                 .sickLeaveBalance(10)
                 .casualLeaveBalance(10)
-                .year(2026)
+                .year(LocalDate.now().getYear())
                 .build();
         leaveBalanceRepository.save(leaveBalance);
 
         auditService.logAction("EMPLOYEE_CREATE", "ADMIN", "Created employee: " + employee.getEmployeeCode());
 
-        return mapToDto(employee);
+        EmployeeDto responseDto = mapToDto(employee);
+        responseDto.setGeneratedPassword(generatedPassword);
+        return responseDto;
     }
 
     @Transactional

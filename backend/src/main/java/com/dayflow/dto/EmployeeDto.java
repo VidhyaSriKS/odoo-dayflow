@@ -29,4 +29,5 @@ public class EmployeeDto {
     private BigDecimal allowances;
     private BigDecimal deductions;
     private BigDecimal netSalary;
+    private String generatedPassword;
 }

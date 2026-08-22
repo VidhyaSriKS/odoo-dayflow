@@ -108,15 +108,3 @@ export interface AnalyticsData {
   departmentDistribution: { name: string; value: number }[];
   leaveTrends: { type: string; count: number }[];
 }
-
-export interface AiInsight {
-  id: string;
-  severity: 'WARNING' | 'INFO' | 'ALERT';
-  employee_code: string;
-  employee_name: string;
-  department: string;
-  attendance_rate: string;
-  issue: string;
-  pattern_details: string;
-  recommendation: string;
-}

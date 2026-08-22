@@ -1,5 +1,5 @@
-import { mockEmployees, mockAttendanceRecords, mockLeaveRequests, mockAnalyticsData, mockAiInsights } from '../data/mockData';
-import { User, Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData, AiInsight } from '../types';
+import { mockEmployees, mockAttendanceRecords, mockLeaveRequests, mockAnalyticsData } from '../data/mockData';
+import { User, Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData } from '../types';
 
 const API_BASE_URL = '/api';
 
@@ -14,14 +14,26 @@ function getAuthHeader(): Record<string, string> {
   }
 }
 
+// Local mock database for offline demo
+function getMockUsers(): any[] {
+  const users = localStorage.getItem('dayflow_mock_users');
+  return users ? JSON.parse(users) : [];
+}
+
+function saveMockUser(user: any) {
+  const users = getMockUsers();
+  users.push(user);
+  localStorage.setItem('dayflow_mock_users', JSON.stringify(users));
+}
+
 export const apiClient = {
   // Auth
-  async login(email: string, password: string): Promise<User> {
+  async login(loginIdOrEmail: string, password: string): Promise<User> {
     try {
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ loginIdOrEmail, password })
       });
       if (res.ok) {
         const data = await res.json();
@@ -34,13 +46,31 @@ export const apiClient = {
           employeeCode: data.employeeCode,
           token: data.token
         };
+      } else {
+        const text = await res.text();
+        try {
+          const errorData = JSON.parse(text);
+          throw new Error(errorData.message || 'Invalid login credentials');
+        } catch (e) {
+          throw new Error('Backend error: ' + res.status);
+        }
       }
-    } catch (e) {
+    } catch (e: any) {
       console.warn('Backend unavailable, using client auth handler:', e);
     }
 
     // Fallback demo login verification
-    if (email.toLowerCase().includes('admin')) {
+    const mockUsers = getMockUsers();
+    const foundUser = mockUsers.find(u => 
+      u.email.toLowerCase() === loginIdOrEmail.toLowerCase() || 
+      (u.employeeCode && u.employeeCode.toLowerCase() === loginIdOrEmail.toLowerCase())
+    );
+
+    if (foundUser && foundUser.password === password) {
+      return foundUser;
+    }
+
+    if (loginIdOrEmail.toLowerCase().includes('admin')) {
       return {
         id: 1,
         email: 'admin@dayflow.com',
@@ -50,7 +80,7 @@ export const apiClient = {
         employeeCode: 'EMP1001',
         token: 'demo-jwt-token-admin'
       };
-    } else {
+    } else if (loginIdOrEmail.toLowerCase().includes('employee') || loginIdOrEmail.toLowerCase().includes('emp')) {
       return {
         id: 2,
         email: 'employee@dayflow.com',
@@ -60,6 +90,108 @@ export const apiClient = {
         employeeCode: 'EMP1002',
         token: 'demo-jwt-token-employee'
       };
+    }
+    
+    throw new Error('Invalid login credentials');
+  },
+
+  async registerAdmin(data: any): Promise<User> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      const text = await res.text();
+      try {
+        const err = JSON.parse(text);
+        throw new Error(err.message || 'Registration failed');
+      } catch (e) {
+        throw new Error('Backend error: ' + res.status);
+      }
+    } catch (e: any) {
+      console.warn('Backend unavailable, using client fallback for register:', e);
+      const mockAdmin: User = {
+        id: Date.now(),
+        email: data.email,
+        fullName: data.fullName,
+        role: 'ROLE_ADMIN',
+        employeeId: Date.now(),
+        employeeCode: 'ODJ' + new Date().getFullYear() + '0001',
+        token: 'demo-jwt-token-admin'
+      };
+      saveMockUser(mockAdmin);
+      return mockAdmin;
+    }
+  },
+
+  async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+    const res = await fetch(`${API_BASE_URL}/auth/change-password`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        ...getAuthHeader()
+      },
+      body: JSON.stringify({ oldPassword, newPassword })
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || 'Failed to change password');
+    }
+  },
+
+  // Employees
+  async createEmployee(data: any): Promise<any> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/employees`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          ...getAuthHeader()
+        },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      const text = await res.text();
+      try {
+        const err = JSON.parse(text);
+        throw new Error(err.message || 'Failed to create employee');
+      } catch (e) {
+        throw new Error('Backend error: ' + res.status);
+      }
+    } catch (e: any) {
+      console.warn('Backend unavailable, using client fallback for createEmployee:', e);
+      const generatedCode = 'EMP' + Math.floor(1000 + Math.random() * 9000);
+      const generatedPass = 'pass' + Math.floor(1000 + Math.random() * 9000);
+      
+      const newEmp = {
+        id: Date.now(),
+        employeeCode: generatedCode,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        fullName: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        departmentName: data.departmentName,
+        designation: data.designation,
+        employmentStatus: 'ACTIVE',
+        basicSalary: data.basicSalary,
+        generatedPassword: generatedPass
+      };
+      
+      // Save for login
+      saveMockUser({
+        ...newEmp,
+        role: 'ROLE_EMPLOYEE',
+        password: generatedPass,
+        token: 'demo-jwt-token-emp'
+      });
+      
+      return newEmp;
     }
   },
 
@@ -154,65 +286,12 @@ export const apiClient = {
     return mockLeaveRequests;
   },
 
-  // Analytics & AI
+  // Analytics
   async getAnalytics(): Promise<AnalyticsData> {
     try {
       const res = await fetch(`${API_BASE_URL}/analytics/dashboard`, { headers: getAuthHeader() });
       if (res.ok) return await res.json();
     } catch (e) {}
     return mockAnalyticsData;
-  },
-
-  async queryAi(prompt: string, role: string): Promise<{ response: string; dataSource: string; suggestedActions: string[] }> {
-    try {
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      };
-      const res = await fetch(`${API_BASE_URL}/ai/chat`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ prompt, userRole: role })
-      });
-      if (res.ok) return await res.json();
-    } catch (e) {}
-
-    // Client-side Fallback Processor
-    const lower = prompt.toLowerCase();
-    if (lower.includes('leave') || lower.includes('balance')) {
-      return {
-        response: 'You currently have 12 Paid Leave days, 8 Sick Leave days, and 9 Casual Leave days remaining for 2026.',
-        dataSource: 'Dayflow LeaveEngine (Live)',
-        suggestedActions: ['Apply for Leave', 'View Leave Policy']
-      };
-    }
-    if (lower.includes('absent')) {
-      return {
-        response: 'Today across all departments, 18 employees are marked absent and 14 employees are on approved leave out of 250 total headcount.',
-        dataSource: 'Dayflow AttendanceAnalytics',
-        suggestedActions: ['View Daily Attendance Sheet', 'Send Absence Reminder']
-      };
-    }
-    if (lower.includes('salary') || lower.includes('payroll')) {
-      return {
-        response: 'Your net monthly salary is $89,500.00 (Basic: $85,000.00, Allowances: $8,000.00, Deductions: $3,500.00). Payslip for August 2026 is available for download.',
-        dataSource: 'Dayflow PayrollModule',
-        suggestedActions: ['Download Payslip PDF']
-      };
-    }
-
-    return {
-      response: `I analyzed your query: '${prompt}'. All system metrics are within nominal ranges. Would you like to check specific attendance or payroll breakdowns?`,
-      dataSource: 'Dayflow AI Assistant Engine',
-      suggestedActions: ['View Dashboard', 'Check Approvals']
-    };
-  },
-
-  async getAiInsights(): Promise<AiInsight[]> {
-    try {
-      const res = await fetch(`${API_BASE_URL}/ai/insights`, { headers: getAuthHeader() });
-      if (res.ok) return await res.json();
-    } catch (e) {}
-    return mockAiInsights;
   }
 };

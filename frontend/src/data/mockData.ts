@@ -1,4 +1,4 @@
-import { Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData, AiInsight } from '../types';
+import { Employee, AttendanceRecord, LeaveRequest, PayrollRecord, AnalyticsData } from '../types';
 
 export const mockEmployees: Employee[] = [
   {
@@ -163,39 +163,3 @@ export const mockAnalyticsData: AnalyticsData = {
     { type: 'Unpaid', count: 12 }
   ]
 };
-
-export const mockAiInsights: AiInsight[] = [
-  {
-    id: "INS-101",
-    severity: "WARNING",
-    employee_code: "EMP1024",
-    employee_name: "Marcus Vance",
-    department: "Operations",
-    attendance_rate: "71.4%",
-    issue: "Repeated Late Check-in Pattern",
-    pattern_details: "6 late check-ins (>09:15 AM) in the past 20 working days.",
-    recommendation: "HR may review schedule alignment or commute constraints with the employee."
-  },
-  {
-    id: "INS-102",
-    severity: "INFO",
-    employee_code: "EMP1008",
-    employee_name: "Sophia Bennett",
-    department: "Engineering",
-    attendance_rate: "98.5%",
-    issue: "Consistent High Performance",
-    pattern_details: "Zero tardiness records across 60 days with average 8h 45m daily logged hours.",
-    recommendation: "Eligible for quarterly diligence recognition."
-  },
-  {
-    id: "INS-103",
-    severity: "ALERT",
-    employee_code: "EMP1015",
-    employee_name: "David Kim",
-    department: "Marketing",
-    attendance_rate: "68.0%",
-    issue: "Frequent Consecutive Absence Spikes",
-    pattern_details: "3 unannounced single-day absences on Mondays over the last 6 weeks.",
-    recommendation: "Recommend wellness check-in and formal HR attendance discussion."
-  }
-];
