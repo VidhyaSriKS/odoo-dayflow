@@ -48,33 +48,29 @@ export const Navbar: React.FC = () => {
           </span>
         </Link>
 
-        {/* Employee nav tabs */}
-        {!isHr && (
-          <nav className="hidden sm:flex items-center gap-0.5">
-            {empNavLinks.map(link => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-[#F5F3FF] dark:bg-[#1E2038] text-[#7C3AED] dark:text-[#A78BFA]'
-                      : 'text-[#6B7280] dark:text-[#A9A8BC] hover:text-[#1F1937] dark:hover:text-[#F8F7FF] hover:bg-[#FAF9FF] dark:hover:bg-[#1E2038]'
-                  }`
-                }
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
-        )}
-
-        {/* HR badge */}
-        {isHr && (
-          <span className="hidden sm:block text-[10px] uppercase font-bold tracking-widest px-2.5 py-0.5 rounded-full bg-[#F5F3FF] dark:bg-purple-950/60 text-[#7C3AED] dark:text-[#A78BFA] border border-[#E9E5F7] dark:border-purple-800/40">
-            HR PRO
-          </span>
-        )}
+        {/* Navigation tabs for HR & Employees */}
+        <nav className="hidden sm:flex items-center gap-1">
+          {(isHr ? [
+            { label: 'Employees', to: '/admin' },
+            { label: 'Attendance', to: '/attendance' },
+            { label: 'Time Off', to: '/leaves' },
+          ] : empNavLinks).map(link => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/admin'}
+              className={({ isActive }) =>
+                `px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                  isActive
+                    ? 'bg-[#7C3AED] text-white shadow-sm'
+                    : 'text-[#6B7280] dark:text-[#A9A8BC] hover:text-[#1F1937] dark:hover:text-[#F8F7FF] hover:bg-[#F5F3FF] dark:hover:bg-[#1E2038]'
+                }`
+              }
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
       </div>
 
       {/* Right Controls */}

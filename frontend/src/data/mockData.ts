@@ -90,14 +90,91 @@ export const mockEmployees: Employee[] = [
     allowances: 10000,
     deductions: 4000,
     netSalary: 96000
+  },
+  {
+    id: 6,
+    employeeCode: 'EMP1006',
+    firstName: 'David',
+    lastName: 'Miller',
+    fullName: 'David Miller',
+    email: 'david.miller@dayflow.com',
+    phone: '+1 (555) 013-8821',
+    address: '12 Market St, Chicago, IL',
+    departmentName: 'Operations',
+    designation: 'Operations Lead',
+    joiningDate: '2023-03-10',
+    employmentStatus: 'ACTIVE',
+    basicSalary: 78000,
+    allowances: 7000,
+    deductions: 3000,
+    netSalary: 82000
+  },
+  {
+    id: 7,
+    employeeCode: 'EMP1007',
+    firstName: 'Priya',
+    lastName: 'Sharma',
+    fullName: 'Priya Sharma',
+    email: 'priya.sharma@dayflow.com',
+    phone: '+1 (555) 017-4491',
+    address: '55 Tech Park, San Jose, CA',
+    departmentName: 'Engineering',
+    designation: 'Frontend Engineer',
+    joiningDate: '2024-01-20',
+    employmentStatus: 'ACTIVE',
+    basicSalary: 80000,
+    allowances: 7500,
+    deductions: 3200,
+    netSalary: 84300
+  },
+  {
+    id: 8,
+    employeeCode: 'EMP1008',
+    firstName: 'James',
+    lastName: 'Wilson',
+    fullName: 'James Wilson',
+    email: 'james.wilson@dayflow.com',
+    phone: '+1 (555) 011-9920',
+    address: '33 Commerce Way, Boston, MA',
+    departmentName: 'Human Resources',
+    designation: 'HR Specialist',
+    joiningDate: '2023-08-01',
+    employmentStatus: 'ACTIVE',
+    basicSalary: 70000,
+    allowances: 6000,
+    deductions: 2800,
+    netSalary: 73200
+  },
+  {
+    id: 9,
+    employeeCode: 'EMP1009',
+    firstName: 'Sophia',
+    lastName: 'Chen',
+    fullName: 'Sophia Chen',
+    email: 'sophia.chen@dayflow.com',
+    phone: '+1 (555) 015-3312',
+    address: '90 Financial Center, Denver, CO',
+    departmentName: 'Finance',
+    designation: 'Accountant',
+    joiningDate: '2023-10-05',
+    employmentStatus: 'ACTIVE',
+    basicSalary: 72000,
+    allowances: 6500,
+    deductions: 2900,
+    netSalary: 75600
   }
 ];
 
 export const mockAttendanceRecords: AttendanceRecord[] = [
-  { id: 1, employeeId: 2, employeeName: 'Alex Taylor', employeeCode: 'EMP1002', departmentName: 'Engineering', date: '2026-08-22', checkInTime: '2026-08-22T09:02:00', checkOutTime: '2026-08-22T17:34:00', workingHours: 8.5, status: 'PRESENT' },
-  { id: 2, employeeId: 3, employeeName: 'Sarah Connor', employeeCode: 'EMP1003', departmentName: 'Engineering', date: '2026-08-22', checkInTime: '2026-08-22T08:55:00', checkOutTime: '2026-08-22T18:00:00', workingHours: 9.0, status: 'PRESENT' },
-  { id: 3, employeeId: 4, employeeName: 'Michael Scott', employeeCode: 'EMP1004', departmentName: 'Finance', date: '2026-08-22', status: 'ABSENT' },
-  { id: 4, employeeId: 5, employeeName: 'Elena Rostova', employeeCode: 'EMP1005', departmentName: 'Marketing', date: '2026-08-22', status: 'LEAVE', notes: 'Approved Annual Leave' }
+  { id: 1, employeeId: 1, employeeName: 'Admin HR', employeeCode: 'EMP1001', departmentName: 'Human Resources', date: '2026-08-22', checkInTime: '2026-08-22T08:30:00', status: 'PRESENT' },
+  { id: 2, employeeId: 2, employeeName: 'Alex Taylor', employeeCode: 'EMP1002', departmentName: 'Engineering', date: '2026-08-22', checkInTime: '2026-08-22T09:02:00', checkOutTime: '2026-08-22T17:34:00', workingHours: 8.5, status: 'PRESENT' },
+  { id: 3, employeeId: 3, employeeName: 'Sarah Connor', employeeCode: 'EMP1003', departmentName: 'Engineering', date: '2026-08-22', checkInTime: '2026-08-22T08:55:00', checkOutTime: '2026-08-22T18:00:00', workingHours: 9.0, status: 'PRESENT' },
+  { id: 4, employeeId: 4, employeeName: 'Michael Scott', employeeCode: 'EMP1004', departmentName: 'Finance', date: '2026-08-22', status: 'ABSENT' },
+  { id: 5, employeeId: 5, employeeName: 'Elena Rostova', employeeCode: 'EMP1005', departmentName: 'Marketing', date: '2026-08-22', status: 'LEAVE', notes: 'Approved Annual Leave' },
+  { id: 6, employeeId: 6, employeeName: 'David Miller', employeeCode: 'EMP1006', departmentName: 'Operations', date: '2026-08-22', checkInTime: '2026-08-22T09:10:00', status: 'PRESENT' },
+  { id: 7, employeeId: 7, employeeName: 'Priya Sharma', employeeCode: 'EMP1007', departmentName: 'Engineering', date: '2026-08-22', status: 'LEAVE', notes: 'Sick Leave' },
+  { id: 8, employeeId: 8, employeeName: 'James Wilson', employeeCode: 'EMP1008', departmentName: 'Human Resources', date: '2026-08-22', checkInTime: '2026-08-22T08:45:00', status: 'PRESENT' },
+  { id: 9, employeeId: 9, employeeName: 'Sophia Chen', employeeCode: 'EMP1009', departmentName: 'Finance', date: '2026-08-22', status: 'ABSENT' }
 ];
 
 export const mockLeaveRequests: LeaveRequest[] = [

@@ -226,6 +226,14 @@ export const apiClient = {
     };
   },
 
+  async getAttendanceRecords(): Promise<AttendanceRecord[]> {
+    try {
+      const res = await fetch(`${API_BASE_URL}/attendance`, { headers: getAuthHeader() });
+      if (res.ok) return await res.json();
+    } catch (e) {}
+    return mockAttendanceRecords;
+  },
+
   async checkOut(employeeId: number): Promise<AttendanceRecord> {
     try {
       const res = await fetch(`${API_BASE_URL}/attendance/check-out?employeeId=${employeeId}`, {
