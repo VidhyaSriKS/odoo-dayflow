@@ -32,21 +32,9 @@ services:
       SPRING_DATASOURCE_USERNAME: dayflow
       SPRING_DATASOURCE_PASSWORD: dayflow_secret_pass
       JWT_SECRET: dayflow_super_secret_jwt_key_2026_hackathon_production_secure_key_987654321
-      AI_SERVICE_URL: http://ai-service:8000
     depends_on:
       postgres:
         condition: service_healthy
-    restart: always
-
-  ai-service:
-    build:
-      context: ./ai-service
-      dockerfile: Dockerfile
-    container_name: dayflow-ai-service
-    ports:
-      - "8000:8000"
-    environment:
-      PORT: 8000
     restart: always
 
   frontend:
@@ -58,7 +46,6 @@ services:
       - "5173:5173"
     environment:
       VITE_API_BASE_URL: http://localhost:8080/api
-      VITE_AI_BASE_URL: http://localhost:8000
     depends_on:
       - backend
     restart: always

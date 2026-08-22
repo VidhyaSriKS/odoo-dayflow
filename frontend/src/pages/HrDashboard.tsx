@@ -15,8 +15,7 @@ import {
   DollarSign,
   Building,
   UserPlus,
-  ArrowRight,
-  Bot
+  ArrowRight
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -65,13 +64,6 @@ export const HrDashboard: React.FC = () => {
           >
             <UserPlus className="w-4 h-4" />
             <span>Add New Employee</span>
-          </button>
-          <button
-            onClick={() => navigate('/ai-assistant')}
-            className="px-4 py-2.5 bg-[#FAF9FF] dark:bg-[#1E2038] hover:bg-[#F5F3FF] dark:hover:bg-[#30334F] border border-[#E9E5F7] dark:border-[#30334F] text-[#7C3AED] dark:text-[#A78BFA] text-xs font-bold rounded-xl transition-all flex items-center space-x-2"
-          >
-            <Bot className="w-4 h-4" />
-            <span>AI Insights</span>
           </button>
         </div>
       </div>

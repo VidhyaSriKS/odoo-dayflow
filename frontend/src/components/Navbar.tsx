@@ -26,9 +26,9 @@ export const Navbar: React.FC = () => {
     ? user.fullName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
     : 'U';
 
-  // Employee nav tabs (Odoo-style — matches wireframe)
+  // Employee nav tabs
   const empNavLinks = [
-    { label: 'Employees', to: '/dashboard' },
+    { label: 'Dashboard', to: '/dashboard' },
     { label: 'Attendance', to: '/attendance' },
     { label: 'Time Off', to: '/leaves' },
   ];
