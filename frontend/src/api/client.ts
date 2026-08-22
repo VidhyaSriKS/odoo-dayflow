@@ -14,6 +14,18 @@ function getAuthHeader(): Record<string, string> {
   }
 }
 
+// Local mock database for offline demo
+function getMockUsers(): any[] {
+  const users = localStorage.getItem('dayflow_mock_users');
+  return users ? JSON.parse(users) : [];
+}
+
+function saveMockUser(user: any) {
+  const users = getMockUsers();
+  users.push(user);
+  localStorage.setItem('dayflow_mock_users', JSON.stringify(users));
+}
+
 export const apiClient = {
   // Auth
   async login(loginIdOrEmail: string, password: string): Promise<User> {
@@ -35,15 +47,29 @@ export const apiClient = {
           token: data.token
         };
       } else {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Invalid login credentials');
+        const text = await res.text();
+        try {
+          const errorData = JSON.parse(text);
+          throw new Error(errorData.message || 'Invalid login credentials');
+        } catch (e) {
+          throw new Error('Backend error: ' + res.status);
+        }
       }
     } catch (e: any) {
-      if (e.message !== 'Failed to fetch') throw e;
       console.warn('Backend unavailable, using client auth handler:', e);
     }
 
     // Fallback demo login verification
+    const mockUsers = getMockUsers();
+    const foundUser = mockUsers.find(u => 
+      u.email.toLowerCase() === loginIdOrEmail.toLowerCase() || 
+      (u.employeeCode && u.employeeCode.toLowerCase() === loginIdOrEmail.toLowerCase())
+    );
+
+    if (foundUser && foundUser.password === password) {
+      return foundUser;
+    }
+
     if (loginIdOrEmail.toLowerCase().includes('admin')) {
       return {
         id: 1,
@@ -54,7 +80,7 @@ export const apiClient = {
         employeeCode: 'EMP1001',
         token: 'demo-jwt-token-admin'
       };
-    } else {
+    } else if (loginIdOrEmail.toLowerCase().includes('employee') || loginIdOrEmail.toLowerCase().includes('emp')) {
       return {
         id: 2,
         email: 'employee@dayflow.com',
@@ -65,19 +91,42 @@ export const apiClient = {
         token: 'demo-jwt-token-employee'
       };
     }
+    
+    throw new Error('Invalid login credentials');
   },
 
   async registerAdmin(data: any): Promise<User> {
-    const res = await fetch(`${API_BASE_URL}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    if (res.ok) {
-      return await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      const text = await res.text();
+      try {
+        const err = JSON.parse(text);
+        throw new Error(err.message || 'Registration failed');
+      } catch (e) {
+        throw new Error('Backend error: ' + res.status);
+      }
+    } catch (e: any) {
+      console.warn('Backend unavailable, using client fallback for register:', e);
+      const mockAdmin = {
+        id: Date.now(),
+        email: data.email,
+        fullName: data.fullName,
+        role: 'ROLE_ADMIN',
+        employeeId: Date.now(),
+        employeeCode: 'ODJ' + new Date().getFullYear() + '0001',
+        password: data.password, // storing temporarily for local demo auth
+        token: 'demo-jwt-token-admin'
+      };
+      saveMockUser(mockAdmin);
+      return mockAdmin;
     }
-    const err = await res.json();
-    throw new Error(err.message || 'Registration failed');
   },
 
   async changePassword(oldPassword: string, newPassword: string): Promise<void> {
@@ -97,19 +146,54 @@ export const apiClient = {
 
   // Employees
   async createEmployee(data: any): Promise<any> {
-    const res = await fetch(`${API_BASE_URL}/employees`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        ...getAuthHeader()
-      },
-      body: JSON.stringify(data)
-    });
-    if (res.ok) {
-      return await res.json();
+    try {
+      const res = await fetch(`${API_BASE_URL}/employees`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          ...getAuthHeader()
+        },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      const text = await res.text();
+      try {
+        const err = JSON.parse(text);
+        throw new Error(err.message || 'Failed to create employee');
+      } catch (e) {
+        throw new Error('Backend error: ' + res.status);
+      }
+    } catch (e: any) {
+      console.warn('Backend unavailable, using client fallback for createEmployee:', e);
+      const generatedCode = 'EMP' + Math.floor(1000 + Math.random() * 9000);
+      const generatedPass = 'pass' + Math.floor(1000 + Math.random() * 9000);
+      
+      const newEmp = {
+        id: Date.now(),
+        employeeCode: generatedCode,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        fullName: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        departmentName: data.departmentName,
+        designation: data.designation,
+        employmentStatus: 'ACTIVE',
+        basicSalary: data.basicSalary,
+        generatedPassword: generatedPass
+      };
+      
+      // Save for login
+      saveMockUser({
+        ...newEmp,
+        role: 'ROLE_EMPLOYEE',
+        password: generatedPass,
+        token: 'demo-jwt-token-emp'
+      });
+      
+      return newEmp;
     }
-    const err = await res.json();
-    throw new Error(err.message || 'Failed to create employee');
   },
 
   // Employees

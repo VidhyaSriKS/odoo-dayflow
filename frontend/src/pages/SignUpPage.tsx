@@ -66,13 +66,11 @@ export const SignUpPage: React.FC = () => {
     <div className="min-h-screen bg-[#FAF9FF] dark:bg-[#0F1020] flex items-center justify-center p-4 selection:bg-[#7C3AED] selection:text-white transition-colors duration-200 py-10">
       <div className="w-full max-w-md bg-white dark:bg-[#181A30] border border-[#E9E5F7] dark:border-[#30334F] rounded-3xl p-8 shadow-xl space-y-6">
         <div className="text-center space-y-2">
-          {companyLogo ? (
-            <img src={companyLogo} alt="Company Logo" className="w-16 h-16 rounded-2xl mx-auto object-cover border border-[#E9E5F7] dark:border-[#30334F]" />
-          ) : (
-            <div className="w-12 h-12 rounded-2xl bg-[#E5E7EB] dark:bg-[#374151] mx-auto flex items-center justify-center text-[#9CA3AF] font-bold text-xs tracking-wider">
-              LOGO
+          <Link to="/" className="inline-flex items-center space-x-3 mb-2">
+            <div className="w-12 h-12 rounded-2xl bg-[#7C3AED] dark:bg-[#8B5CF6] flex items-center justify-center text-white font-black text-2xl shadow-[0_4px_12px_rgba(124,58,237,0.3)]">
+              D
             </div>
-          )}
+          </Link>
           <h1 className="text-2xl font-extrabold text-[#1F1937] dark:text-[#F8F7FF] tracking-tight">Sign Up Page</h1>
           <p className="text-xs text-[#6B7280] dark:text-[#A9A8BC]">Create your organization workspace (Admin Only)</p>
         </div>
@@ -88,7 +86,7 @@ export const SignUpPage: React.FC = () => {
           {/* Company Name & Logo */}
           <div className="flex gap-3">
             <div className="space-y-1.5 flex-1">
-              <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Company Name :-</label>
+              <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Company Name </label>
               <div className="relative">
                 <Building className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
                 <input
@@ -111,7 +109,7 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Name :-</label>
+            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Name </label>
             <div className="relative">
               <UserIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
               <input
@@ -126,7 +124,7 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Email :-</label>
+            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Email </label>
             <div className="relative">
               <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
               <input
@@ -141,7 +139,7 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Phone :-</label>
+            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Phone </label>
             <div className="relative">
               <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
               <input
@@ -156,7 +154,7 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Password :-</label>
+            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Password </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
               <input
@@ -178,7 +176,7 @@ export const SignUpPage: React.FC = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Confirm Password :-</label>
+            <label className="text-xs font-semibold text-[#1F1937] dark:text-[#F8F7FF]">Confirm Password </label>
             <div className="relative">
               <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#6B7280] dark:text-[#A9A8BC]" />
               <input
