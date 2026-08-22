@@ -10,6 +10,8 @@ import { SignUpPage } from './pages/SignUpPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 
 import { EmployeeDashboard } from './pages/EmployeeDashboard';
+import { EmployeeHomePage } from './pages/EmployeeHomePage';
+import { EmployeeProfilePage } from './pages/EmployeeProfilePage';
 import { HrDashboard } from './pages/HrDashboard';
 import { EmployeeListPage } from './pages/EmployeeListPage';
 import { AttendancePage } from './pages/AttendancePage';
@@ -44,8 +46,8 @@ export const App: React.FC = () => {
               {/* Protected Application Routes */}
               <Route element={<DashboardLayout />}>
                 <Route path="/home" element={<RoleBasedHome />} />
-                <Route path="/dashboard" element={<EmployeeDashboard />} />
-                <Route path="/profile" element={<EmployeeDashboard />} />
+                <Route path="/dashboard" element={<EmployeeHomePage />} />
+                <Route path="/profile" element={<EmployeeProfilePage />} />
                 <Route path="/admin" element={<HrDashboard />} />
                 <Route path="/admin/employees" element={<EmployeeListPage />} />
                 <Route path="/attendance" element={<AttendancePage />} />
