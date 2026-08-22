@@ -1,0 +1,33 @@
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.launch
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.env.local
+frontend/npm-debug.log*
+
+# Java / Backend
+backend/target/
+backend/.mvn/timing.properties
+backend/.classpath
+backend/.project
+backend/.settings/
+backend/bin/
+backend/*.log
+backend/*.db
+
+# Python / AI Service
+ai-service/__pycache__/
+ai-service/*.pyc
+ai-service/venv/
+ai-service/.venv/
+
+# Environment Variables
+.env
