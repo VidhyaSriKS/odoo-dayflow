@@ -14,17 +14,7 @@ function getAuthHeader(): Record<string, string> {
   }
 }
 
-// Local mock database for offline demo
-function getMockUsers(): any[] {
-  const users = localStorage.getItem('dayflow_mock_users');
-  return users ? JSON.parse(users) : [];
-}
-
-function saveMockUser(user: any) {
-  const users = getMockUsers();
-  users.push(user);
-  localStorage.setItem('dayflow_mock_users', JSON.stringify(users));
-}
+// No mock logic anymore, direct API connection
 
 export const apiClient = {
   // Auth
@@ -48,51 +38,21 @@ export const apiClient = {
         };
       } else {
         const text = await res.text();
+        let errorData;
         try {
-          const errorData = JSON.parse(text);
-          throw new Error(errorData.message || 'Invalid login credentials');
+          errorData = JSON.parse(text);
         } catch (e) {
           throw new Error('Backend error: ' + res.status);
         }
+        throw new Error(errorData.message || 'Invalid login credentials');
       }
     } catch (e: any) {
-      console.warn('Backend unavailable, using client auth handler:', e);
+      // Don't prefix with 'Backend unavailable' if it's just an invalid credential error
+      if (e.message.includes('Invalid') || e.message.includes('Backend error')) {
+        throw e;
+      }
+      throw new Error('Backend unavailable: ' + e.message);
     }
-
-    // Fallback demo login verification
-    const mockUsers = getMockUsers();
-    const foundUser = mockUsers.find(u => 
-      u.email.toLowerCase() === loginIdOrEmail.toLowerCase() || 
-      (u.employeeCode && u.employeeCode.toLowerCase() === loginIdOrEmail.toLowerCase())
-    );
-
-    if (foundUser && foundUser.password === password) {
-      return foundUser;
-    }
-
-    if (loginIdOrEmail.toLowerCase().includes('admin')) {
-      return {
-        id: 1,
-        email: 'admin@dayflow.com',
-        fullName: 'Admin HR',
-        role: 'ROLE_ADMIN',
-        employeeId: 1,
-        employeeCode: 'EMP1001',
-        token: 'demo-jwt-token-admin'
-      };
-    } else if (loginIdOrEmail.toLowerCase().includes('employee') || loginIdOrEmail.toLowerCase().includes('emp')) {
-      return {
-        id: 2,
-        email: 'employee@dayflow.com',
-        fullName: 'Alex Taylor',
-        role: 'ROLE_EMPLOYEE',
-        employeeId: 2,
-        employeeCode: 'EMP1002',
-        token: 'demo-jwt-token-employee'
-      };
-    }
-    
-    throw new Error('Invalid login credentials');
   },
 
   async registerAdmin(data: any): Promise<User> {
@@ -106,25 +66,15 @@ export const apiClient = {
         return await res.json();
       }
       const text = await res.text();
+      let err;
       try {
-        const err = JSON.parse(text);
-        throw new Error(err.message || 'Registration failed');
+        err = JSON.parse(text);
       } catch (e) {
         throw new Error('Backend error: ' + res.status);
       }
+      throw new Error(err.message || 'Registration failed');
     } catch (e: any) {
-      console.warn('Backend unavailable, using client fallback for register:', e);
-      const mockAdmin: User = {
-        id: Date.now(),
-        email: data.email,
-        fullName: data.fullName,
-        role: 'ROLE_ADMIN',
-        employeeId: Date.now(),
-        employeeCode: 'ODJ' + new Date().getFullYear() + '0001',
-        token: 'demo-jwt-token-admin'
-      };
-      saveMockUser(mockAdmin);
-      return mockAdmin;
+      throw e;
     }
   },
 
@@ -158,40 +108,15 @@ export const apiClient = {
         return await res.json();
       }
       const text = await res.text();
+      let err;
       try {
-        const err = JSON.parse(text);
-        throw new Error(err.message || 'Failed to create employee');
+        err = JSON.parse(text);
       } catch (e) {
         throw new Error('Backend error: ' + res.status);
       }
+      throw new Error(err.message || 'Failed to create employee');
     } catch (e: any) {
-      console.warn('Backend unavailable, using client fallback for createEmployee:', e);
-      const generatedCode = 'EMP' + Math.floor(1000 + Math.random() * 9000);
-      const generatedPass = 'pass' + Math.floor(1000 + Math.random() * 9000);
-      
-      const newEmp = {
-        id: Date.now(),
-        employeeCode: generatedCode,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        fullName: `${data.firstName} ${data.lastName}`,
-        email: data.email,
-        departmentName: data.departmentName,
-        designation: data.designation,
-        employmentStatus: 'ACTIVE',
-        basicSalary: data.basicSalary,
-        generatedPassword: generatedPass
-      };
-      
-      // Save for login
-      saveMockUser({
-        ...newEmp,
-        role: 'ROLE_EMPLOYEE',
-        password: generatedPass,
-        token: 'demo-jwt-token-emp'
-      });
-      
-      return newEmp;
+      throw e;
     }
   },
 
