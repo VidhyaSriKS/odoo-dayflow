@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  passwordHash String
+  fullName     String
+  role         String    @default("ROLE_EMPLOYEE")
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @default(now()) @updatedAt
+
+  employee     Employee?
+  notifications Notification[]
+}
+
+model Department {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  description String?    @db.Text
+  managerName String?
+  location    String?    @default("Main Headquarters")
+  createdAt   DateTime   @default(now())
+
+  employees   Employee[]
+}
+
+model Employee {
+  id               Int       @id @default(autoincrement())
+  employeeCode     String    @unique
+  userId           Int?      @unique
+  user             User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  firstName        String
+  lastName         String
+  email            String    @unique
+  phone            String?
+  address          String?   @db.Text
+  
+  departmentId     Int?
+  department       Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  
+  designation      String
+  joiningDate      DateTime  @db.Date
+  employmentStatus String    @default("ACTIVE")
+  profilePhotoUrl  String?
+  
+  basicSalary      Float     @default(50000.00)
+  allowances       Float     @default(5000.00)
+  deductions       Float     @default(2000.00)
+  
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @default(now()) @updatedAt
+
+  attendance       Attendance[]
+  leaveBalance     LeaveBalance?
+  leaveRequests    LeaveRequest[]
+  payroll          Payroll[]
+  documents        Document[]
+}
+
+model Attendance {
+  id           Int       @id @default(autoincrement())
+  employeeId   Int
+  employee     Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  date         DateTime  @db.Date
+  checkInTime  DateTime?
+  checkOutTime DateTime?
+  workingHours Float?    @default(0.00)
+  status       String    @default("ABSENT")
+  notes        String?   @db.Text
+  createdAt    DateTime  @default(now())
+
+  @@unique([employeeId, date])
+}
+
+model LeaveBalance {
+  id                 Int      @id @default(autoincrement())
+  employeeId         Int      @unique
+  employee           Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  paidLeaveBalance   Int      @default(15)
+  sickLeaveBalance   Int      @default(10)
+  casualLeaveBalance Int      @default(10)
+  year               Int      @default(2026)
+  updatedAt          DateTime @default(now()) @updatedAt
+}
+
+model LeaveRequest {
+  id          Int      @id @default(autoincrement())
+  employeeId  Int
+  employee    Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  leaveType   String
+  startDate   DateTime @db.Date
+  endDate     DateTime @db.Date
+  totalDays   Int
+  reason      String   @db.Text
+  status      String   @default("PENDING")
+  hrComment   String?  @db.Text
+  approvedBy  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model Payroll {
+  id             Int      @id @default(autoincrement())
+  employeeId     Int
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  payPeriodMonth Int
+  payPeriodYear  Int
+  basicSalary    Float
+  allowances     Float
+  deductions     Float
+  netSalary      Float
+  paymentStatus  String   @default("PAID")
+  paymentDate    DateTime? @db.Date
+  createdAt      DateTime @default(now())
+
+  @@unique([employeeId, payPeriodMonth, payPeriodYear])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String   @db.Text
+  type      String   @default("INFO")
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Document {
+  id           Int      @id @default(autoincrement())
+  employeeId   Int
+  employee     Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  documentName String
+  documentType String
+  filePath     String
+  uploadDate   DateTime @default(now())
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  action      String
+  performedBy String
+  details     String?  @db.Text
+  timestamp   DateTime @default(now())
+}
